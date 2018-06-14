@@ -503,7 +503,7 @@ namespace ePress
 						try
 						{
 							umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
-							wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia)
+                            wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia);
 						}
 						catch(UmowaException ue)
 						{
