@@ -8,11 +8,7 @@ namespace ePress
 {
     public class Program
     {
-        /// <summary>
-        /// Dodaje pozycje do listy w dziale handlowym
-        /// zwraca dodaną pozycje, jezeli nie dodano - zwraca null
-        /// </summary>
-        static private Pozycja DodajPozycje(Wydawnictwo wydawnictwo)
+        static private void DodajPozycje(Wydawnictwo wydawnictwo)
         {
             string input;
             int wybor3;
@@ -25,7 +21,7 @@ namespace ePress
             switch (wybor3)
             {
                 case 0:
-                    return null;
+                    break;
                 case 1:
                     Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     string tytul_do_dodania, czytaj;
@@ -47,7 +43,7 @@ namespace ePress
                     Console.WriteLine("3. Ksiazka sensacyjna");
                     input = Console.ReadLine();
                     Int32.TryParse(input, out wybor4);
-                    Pozycja nowa = null;
+                    Pozycja nowa;
                     switch (wybor4)
                     {
                         case 0:
@@ -67,7 +63,7 @@ namespace ePress
                         default:
                             break;
                     }
-                    return nowa;
+                    break;
                 case 2:
                     string tytul_do_dodania2, czytaj2;
                     int numer_czasopisma2, wybor5;
@@ -86,7 +82,7 @@ namespace ePress
                     Console.WriteLine("2. Czasopismo miesiecznik");
                     input = Console.ReadLine();
                     Int32.TryParse(input, out wybor5);
-                    Pozycja nowa2 = null;
+                    Pozycja nowa2;
                     switch (wybor5)
                     {
                         case 0:
@@ -102,10 +98,9 @@ namespace ePress
                         default:
                             break;
                     }
-                    return nowa2;
+                    break;
                 default:
-                    //przy podaniu nieprawidlowych danych
-                    return null;
+                    break;
             }
         }
         static private Pozycja ZnajdzPozycje(Wydawnictwo wydawnictwo, string komunikat = "Podaj nazwe czasopisma/ksiazki")
@@ -136,15 +131,7 @@ namespace ePress
             string input;
             Console.WriteLine("Podaj pesel autora");
             input = Console.ReadLine();
-            try
-            {
-                temp = wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(input);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Wystąpił błąd: '{0}'", e);
-                temp = ZnajdzAutora(wydawnictwo);
-            }
+            temp = wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(input);
             return temp;
         }
         public static void MainMenu(Wydawnictwo wydawnictwo)
