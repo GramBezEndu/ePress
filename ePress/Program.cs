@@ -41,7 +41,7 @@ namespace ePress
                     Int32.TryParse(input, out ilosc);
                     int wybor4;
                     Console.WriteLine("Wybierz typ ksiazki:");
-                    Console.WriteLine("0. Powrot");
+                    Console.WriteLine("0. Anuluj dodawanie ksiazki");
                     Console.WriteLine("1. Ksiazka album");
                     Console.WriteLine("2. Ksiazka romans");
                     Console.WriteLine("3. Ksiazka sensacyjna");
@@ -65,6 +65,9 @@ namespace ePress
                             wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa, ilosc);
                             break;
                         default:
+                            Console.WriteLine("Niepoprawny wybor");
+                            Console.ReadKey();
+                            HandlowyMenu(wydawnictwo);
                             break;
                     }
                     return nowa;
@@ -81,7 +84,7 @@ namespace ePress
                     czytaj2 = Console.ReadLine();
                     Int32.TryParse(czytaj2, out ilosc2);
                     Console.WriteLine("Wybierz typ czasopisma:");
-                    Console.WriteLine("0. Powrot");
+                    Console.WriteLine("0. Anuluj dodawanie czasopisma");
                     Console.WriteLine("1. Czasopismo tygodnik");
                     Console.WriteLine("2. Czasopismo miesiecznik");
                     input = Console.ReadLine();
