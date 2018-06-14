@@ -8,11 +8,7 @@ namespace ePress
 {
     public class Program
     {
-        /// <summary>
-        /// Dodaje pozycje do listy w dziale handlowym
-        /// zwraca dodaną pozycje, jezeli nie dodano - zwraca null
-        /// </summary>
-        static private Pozycja DodajPozycje(Wydawnictwo wydawnictwo)
+        static private void DodajPozycje(Wydawnictwo wydawnictwo)
         {
             string input;
             int wybor3;
@@ -25,7 +21,7 @@ namespace ePress
             switch (wybor3)
             {
                 case 0:
-                    return null;
+                    break;
                 case 1:
                     Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     string tytul_do_dodania, czytaj;
@@ -47,7 +43,7 @@ namespace ePress
                     Console.WriteLine("3. Ksiazka sensacyjna");
                     input = Console.ReadLine();
                     Int32.TryParse(input, out wybor4);
-                    Pozycja nowa = null;
+                    Pozycja nowa;
                     switch (wybor4)
                     {
                         case 0:
@@ -67,7 +63,7 @@ namespace ePress
                         default:
                             break;
                     }
-                    return nowa;
+                    break;
                 case 2:
                     string tytul_do_dodania2, czytaj2;
                     int numer_czasopisma2, wybor5;
@@ -86,7 +82,7 @@ namespace ePress
                     Console.WriteLine("2. Czasopismo miesiecznik");
                     input = Console.ReadLine();
                     Int32.TryParse(input, out wybor5);
-                    Pozycja nowa2 = null;
+                    Pozycja nowa2;
                     switch (wybor5)
                     {
                         case 0:
@@ -102,13 +98,12 @@ namespace ePress
                         default:
                             break;
                     }
-                    return nowa2;
+                    break;
                 default:
-                    //przy podaniu nieprawidlowych danych
-                    return null;
+                    break;
             }
         }
-        static private Pozycja ZnajdzPozycje(Wydawnictwo wydawnictwo, string komunikat="Podaj nazwe czasopisma/ksiazki")
+        static private Pozycja ZnajdzPozycje(Wydawnictwo wydawnictwo, string komunikat = "Podaj nazwe czasopisma/ksiazki")
         {
             //int wybor;
             string input;
@@ -119,14 +114,14 @@ namespace ePress
             temp = wydawnictwo.Get_dzialHandlowy().ZnajdzPozycje(input);
             return temp;
         }
-        static private void SprzedajPozycje(Wydawnictwo wydawnictwo, Pozycja pozycja, string komunikat="Pomyslnie dokonano zakupu")
+        static private void SprzedajPozycje(Wydawnictwo wydawnictwo, Pozycja pozycja, string komunikat = "Pomyslnie dokonano zakupu")
         {
             string input;
             int ilosc;
             Console.WriteLine("Podaj ilosc");
             input = Console.ReadLine();
             Int32.TryParse(input, out ilosc);
-			wydawnictwo.Get_dzialHandlowy().Sprzedaj(pozycja, ilosc);
+            wydawnictwo.Get_dzialHandlowy().Sprzedaj(pozycja, ilosc);
             //Pomyslnie zakupiono pozycje!
             Console.WriteLine(komunikat);
         }
@@ -136,18 +131,10 @@ namespace ePress
             string input;
             Console.WriteLine("Podaj pesel autora");
             input = Console.ReadLine();
-            try
-            {
-                temp = wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(input);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Wystąpił błąd: '{0}'", e);
-                temp = ZnajdzAutora(wydawnictwo);
-            }
+            temp = wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(input);
             return temp;
         }
-        public static  void MainMenu(Wydawnictwo wydawnictwo)
+        public static void MainMenu(Wydawnictwo wydawnictwo)
         {
             int wybor;
             string input;
@@ -156,7 +143,6 @@ namespace ePress
             Console.WriteLine("0. Wyjscie z programu");
             Console.WriteLine("1. Dzial programowy");
             Console.WriteLine("2. Dzial handlowy");
-            Console.WriteLine("3. Dzial druku");
             input = Console.ReadLine();
             Int32.TryParse(input, out wybor);
             switch (wybor)
@@ -164,13 +150,10 @@ namespace ePress
                 case 0:
                     break;
                 case 1:
-                    ProgramowyMenu(wydawnictwo);
+                    ProgramowyMenu(wydawnictwo, null);
                     break;
                 case 2:
                     HandlowyMenu(wydawnictwo);
-                    break;
-                case 3:
-                    DrukuMenu(wydawnictwo);
                     break;
                 default:
                     Console.WriteLine("Nieodpowiedni wybor");
@@ -183,7 +166,7 @@ namespace ePress
             string input;
             Console.Clear();
             Console.WriteLine("0. Powrot do menu glownego");
-            Console.WriteLine("1. Sprzedaj pozycje"); //nie powinno być kup pozycje?
+            Console.WriteLine("1. Sprzedaj/kup pozycje");
             Console.WriteLine("2. Wyswietl pozycje");
             Console.WriteLine("3. Zlecenie druku");
             input = Console.ReadLine();
@@ -195,37 +178,37 @@ namespace ePress
                     break;
                 case 1:
                     {
-						try
-						{
-							Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
-							SprzedajPozycje(wydawnictwo, temp, "Zakup pomyslny");
-						}
-						catch (BrakPozycjiException bpe)
-						{
-							Console.WriteLine(bpe.Message);
-							Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        try
+                        {
+                            Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
+                            SprzedajPozycje(wydawnictwo, temp, "Zakup pomyslny");
+                        }
+                        catch (BrakPozycjiException bpe)
+                        {
+                            Console.WriteLine(bpe.Message);
+                            Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
                             Console.ReadKey();
-						}
-						catch (NieprawidlowaIloscException nie)
-						{
-							Console.WriteLine(nie.Message);
-							if (nie.pozycja!=null)
-							{
-								nie.pozycja.Informacje();
-								Console.WriteLine("W bazie znajduje się: "+nie.ilejestdostepnych);
-								Console.WriteLine("Ilość w twoim zleceniu: " + nie.ilechcekupic);
-								if(nie.ilejestdostepnych==0)
-									Console.WriteLine("Pozycja obecnie nie jest dostępna w magazynie");
-								else
-									Console.WriteLine("Spróbuj ponownie podając ilość nie przekraczającą dostępność w magazynie");
-								Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        }
+                        catch (NieprawidlowaIloscException nie)
+                        {
+                            Console.WriteLine(nie.Message);
+                            if (nie.pozycja != null)
+                            {
+                                nie.pozycja.Informacje();
+                                Console.WriteLine("W bazie znajduje się: " + nie.ilejestdostepnych);
+                                Console.WriteLine("Ilość w twoim zleceniu: " + nie.ilechcekupic);
+                                if (nie.ilejestdostepnych == 0)
+                                    Console.WriteLine("Pozycja obecnie nie jest dostępna w magazynie");
+                                else
+                                    Console.WriteLine("Spróbuj ponownie podając ilość nie przekraczającą dostępność w magazynie");
+                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
                                 Console.ReadKey();
-							}
-						}
-						finally
-						{
-							HandlowyMenu(wydawnictwo);
-						}
+                            }
+                        }
+                        finally
+                        {
+                            HandlowyMenu(wydawnictwo);
+                        }
                         break;
                     }
                 case 2:
@@ -265,10 +248,11 @@ namespace ePress
                     break;
             }
         }
-        static void ProgramowyMenu(Wydawnictwo wydawnictwo)
+        static void ProgramowyMenu(Wydawnictwo wydawnictwo, Autor wybranyautor)
         {
             int wybor;
             string input;
+            Autor autor = wybranyautor;
             Console.Clear();
             Console.WriteLine("0. Powrot do menu glownego");
             Console.WriteLine("1. Dodaj autora");
@@ -278,91 +262,271 @@ namespace ePress
             Console.WriteLine("5. Dodaj umowe");
             Console.WriteLine("6. Rozwiaz umowe");
             Console.WriteLine("7. Przeglad umow dla autora\n");
+            Console.WriteLine("Obecnie wybrany autor:");
+            if (autor == null)
+            {
+                Console.WriteLine("Nie wybrano autora\n");
+            }
+            else
+                autor.Informacje();
+            Console.WriteLine("Wybierz opcje:");
             input = Console.ReadLine();
             Int32.TryParse(input, out wybor);
-			string imie=null;
-            string nazwisko=null;
-            string pesel=null;
+            string imie = null;
+            string nazwisko = null;
+            string pesel = null;
             switch (wybor)
             {
                 case 0:
                     MainMenu(wydawnictwo);
                     break;
                 case 1:
-					
+
                     Console.WriteLine("Podaj imie: ");
                     imie = Console.ReadLine();
                     Console.WriteLine("Podaj nazwisko: ");
                     nazwisko = Console.ReadLine();
                     Console.WriteLine("Podaj pesel: ");
                     pesel = Console.ReadLine();
-					try
-					{
-						Autor nowyautor = new Autor(imie, nazwisko, pesel);
-						wydawnictwo.Get_dzialProgramowy().DodajAutora(nowyautor);
-					}
-					catch(AutorException ae)
-					{
-						Console.WriteLine(ae.Message);
-						if(ae.autor!=null)
-						{
-							ae.autor.Informacje();
-						}
+                    try
+                    {
+                        Autor nowyautor = new Autor(imie, nazwisko, pesel);
+                        wydawnictwo.Get_dzialProgramowy().DodajAutora(nowyautor);
+                    }
+                    catch (AutorException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                        if (ae.autor != null)
+                        {
+                            ae.autor.Informacje();
+                        }
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    finally
+                    {
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
+                    break;
+                case 2:
+                    if (autor == null)
+                    {
+                        Console.WriteLine("Nie wybrano żadnego autora");
 						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-						Console.ReadKey();
-					}
-					finally
-					{
-						ProgramowyMenu(wydawnictwo);
-					}
-					break;
-				case 2:
-                    Console.WriteLine("Podaj pesel autora którego chcesz usunąć: ");
-                    pesel = Console.ReadLine();
-					wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(pesel);
+                        Console.ReadKey();
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
+                    try
+                    {
+                        wydawnictwo.Get_dzialProgramowy().UsunAutora(autor);
+                    }
+                    catch (AutorException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    finally
+                    {
+						//nie ma autora, wiec ponownie trzeba wybrac autora
+                        ProgramowyMenu(wydawnictwo, null);
+                    }
                     break;
                 case 3:
-                    
+                    try
+                    {
+                        autor = ZnajdzAutora(wydawnictwo);
+                    }
+                    catch (AutorException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    finally
+                    {
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
                     break;
                 case 4:
-					wydawnictwo.Get_dzialProgramowy().PrzegladAutorow();
+                    wydawnictwo.Get_dzialProgramowy().PrzegladAutorow();
+                    Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                    Console.ReadKey();
+                    ProgramowyMenu(wydawnictwo, autor);
                     break;
                 case 5:
-                    throw new NotImplementedException();
+					if (autor == null)
+                    {
+                        Console.WriteLine("Nie wybrano żadnego autora");
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
+					string rodzajumowy;
+                    int wyborumowy;
+					DateTime datarozpoczecia=new DateTime();
+					DateTime datazakonczenia=new DateTime();
+					string data;
+
+                    Console.WriteLine("Wybierz typ umowy:");
+                    Console.WriteLine("0. Powrot");
+                    Console.WriteLine("1. Umowa o prace");
+                    Console.WriteLine("2. Umowa o dzielo");
+					Console.WriteLine("3. Umowa zlecenie");
+                    rodzajumowy = Console.ReadLine();
+                    Int32.TryParse(rodzajumowy, out wyborumowy);
+					switch (wyborumowy){
+						case 0:
+							ProgramowyMenu(wydawnictwo, autor);
+							break;
+						case 1:
+							try
+							{
+								Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
+								data = Console.ReadLine();
+								datarozpoczecia = DateTime.Parse(data);
+								Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
+                                data = Console.ReadLine();
+								datazakonczenia = DateTime.Parse(data);
+								UmowaPraca umowaPraca = new UmowaPraca(datarozpoczecia, datazakonczenia);
+								wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaPraca);
+							}
+                            catch(FormatException)
+                            {
+								Console.WriteLine("Nie udalo sie przekonwertowac dat.");
+								Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+								Console.ReadKey();
+                            }
+							catch(AutorException ae)
+							{
+								Console.WriteLine(ae.Message);
+                                if (ae.autor != null)
+                                {
+                                    ae.autor.Informacje();
+                                }
+                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                                Console.ReadKey();
+							}
+							finally
+							{
+								ProgramowyMenu(wydawnictwo, autor);
+							}
+							break;
+						case 2://dodajpozycje wszystkie wyjatki
+							try
+                            {
+                                Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
+                                data = Console.ReadLine();
+                                datarozpoczecia = DateTime.Parse(data);
+                                Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
+                                data = Console.ReadLine();
+                                datazakonczenia = DateTime.Parse(data);
+								Console.WriteLine("Musisz dodac pozycje");
+								//Pozycja pozycja = DodajPozycje(wydawnictwo);
+								//UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia,pozycja);
+                                //wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Nie udalo sie przekonwertowac dat.");
+                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                                Console.ReadKey();
+                            }
+                            catch (AutorException ae)
+                            {
+                                Console.WriteLine(ae.Message);
+                                if (ae.autor != null)
+                                {
+                                    ae.autor.Informacje();
+                                }
+                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                                Console.ReadKey();
+                            }
+                            finally
+                            {
+                                ProgramowyMenu(wydawnictwo, autor);
+                            }
+							break;
+						case 3: //problematyczne
+							try
+                            {
+                               
+                                Console.WriteLine("Musisz dodac pozycje");
+                               /* Pozycja pozycja = DodajPozycje(wydawnictwo);
+                                UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia, pozycja);
+                                wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);*/
+                            }
+                            catch (AutorException ae)
+                            {
+                                Console.WriteLine(ae.Message);
+                                if (ae.autor != null)
+                                {
+                                    ae.autor.Informacje();
+                                }
+                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                                Console.ReadKey();
+                            }
+                            finally
+                            {
+                                ProgramowyMenu(wydawnictwo, autor);
+                            }
+							break;
+					}
                     break;
                 case 6:
-                    throw new NotImplementedException();
+					if (autor == null)
+                    {
+                        Console.WriteLine("Nie wybrano żadnego autora");
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
+					wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
+					Console.WriteLine("Podaj nr umowy do usuniecia");
+					int nrumowy;
+					string umowa;
+					Umowa umowadousuniecia;
+                    umowa = Console.ReadLine();
+					if(Int32.TryParse(umowa, out nrumowy))
+					{
+						try
+						{
+							umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
+							wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia)
+						}
+						catch(UmowaException ue)
+						{
+							Console.WriteLine(ue.Message);
+							if(ue.autorzwiazanyumowa!=null)
+							{
+								ue.autorzwiazanyumowa.Informacje();
+								foreach (Umowa umowyautora in ue.lista_umow_autora)
+                                    umowyautora.Informacje();
+							}
+
+						}
+						finally
+						{
+							ProgramowyMenu(wydawnictwo, autor);
+						}
+
+					}
+
                     break;
                 case 7:
-                    throw new NotImplementedException();
+                    if (autor == null)
+                    {
+                        Console.WriteLine("Nie wybrano żadnego autora");
+                        ProgramowyMenu(wydawnictwo, autor);
+                    }
+                    wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
+
                     break;
                 default:
                     Console.WriteLine("Nieodpowiedni wybor");
+
                     break;
             }
         }
-        static void DrukuMenu(Wydawnictwo wydawnictwo)
-        {
-            int wybor;
-            string input;
-            Console.Clear();
-            Console.WriteLine("0. Powrot do menu glownego");
-            Console.WriteLine("1. Zlecenie druku");
-            input = Console.ReadLine();
-            Int32.TryParse(input, out wybor);
-            switch (wybor)
-            {
-                case 0:
-                    MainMenu(wydawnictwo);
-                    break;
-                case 1:
-                    throw new NotImplementedException();
-                    break;
-                default:
-                    Console.WriteLine("Nieodpowiedni wybor");
-                    break;
-            }
-        }
+        
         static void Main(string[] args)
         {
             //Stworzenie wydawnictwa
@@ -377,57 +541,57 @@ namespace ePress
 
             //Zapisz dane
 
-			/////Stworzenie autorow
-			//DzialProgramowy programowy = ePress.Get_dzialProgramowy();
-			//programowy.DodajAutora(new Autor("Jan", "Nowak", "87122113892"));
-			//programowy.DodajAutora(new Autor("Anna", "Byk", "96112808085"));
-			//programowy.DodajAutora(new Autor("Wojciech", "Krawczyk", "82062407876"));
+            /////Stworzenie autorow
+            //DzialProgramowy programowy = ePress.Get_dzialProgramowy();
+            //programowy.DodajAutora(new Autor("Jan", "Nowak", "87122113892"));
+            //programowy.DodajAutora(new Autor("Anna", "Byk", "96112808085"));
+            //programowy.DodajAutora(new Autor("Wojciech", "Krawczyk", "82062407876"));
 
-			////Znalezienie autora po peselu
-			//Autor mojUlubieny = programowy.ZnajdzAutora("87122113892");
-			//Autor mojUlubieny2 = programowy.ZnajdzAutora("96112808085");
-			//Autor mojUlubieny3 = programowy.ZnajdzAutora("82062407876");
+            ////Znalezienie autora po peselu
+            //Autor mojUlubieny = programowy.ZnajdzAutora("87122113892");
+            //Autor mojUlubieny2 = programowy.ZnajdzAutora("96112808085");
+            //Autor mojUlubieny3 = programowy.ZnajdzAutora("82062407876");
 
-   //         //Dodanie umow poprawnych/niepoprawnych
-   //         Umowa jakas = new UmowaZlecenie(new CzasopismoMiesiecznik("Miesiecznik Mietka", 1));
-			//programowy.DodajUmowe(mojUlubieny, new UmowaPraca(new DateTime(2018,6,1), new DateTime(2020,6,1)));
-			//programowy.DodajUmowe(mojUlubieny, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny, "Ogniem i mieczem", 2018)));
-   //         programowy.DodajUmowe(mojUlubieny, jakas);
-			//programowy.DodajUmowe(mojUlubieny2, new UmowaDzielo(new DateTime(2018,6,01), new DateTime(2018, 5, 25), new KsiazkaRomans(mojUlubieny2, "Tytul 1", 2018)));
-			//programowy.DodajUmowe(mojUlubieny3, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny3, "Album A", 2018)));
+            //         //Dodanie umow poprawnych/niepoprawnych
+            //         Umowa jakas = new UmowaZlecenie(new CzasopismoMiesiecznik("Miesiecznik Mietka", 1));
+            //programowy.DodajUmowe(mojUlubieny, new UmowaPraca(new DateTime(2018,6,1), new DateTime(2020,6,1)));
+            //programowy.DodajUmowe(mojUlubieny, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny, "Ogniem i mieczem", 2018)));
+            //         programowy.DodajUmowe(mojUlubieny, jakas);
+            //programowy.DodajUmowe(mojUlubieny2, new UmowaDzielo(new DateTime(2018,6,01), new DateTime(2018, 5, 25), new KsiazkaRomans(mojUlubieny2, "Tytul 1", 2018)));
+            //programowy.DodajUmowe(mojUlubieny3, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny3, "Album A", 2018)));
 
-			////Przeglad wszystkich autorow
-			//programowy.PrzegladAutorow();
+            ////Przeglad wszystkich autorow
+            //programowy.PrzegladAutorow();
 
-			////Przeglad umow dla jednego autora
-			//programowy.PrzegladUmow(mojUlubieny);
+            ////Przeglad umow dla jednego autora
+            //programowy.PrzegladUmow(mojUlubieny);
 
-			////Rozwiazanie umowy istniejacej/nieistniejacej
-			//programowy.RozwiazUmowe(jakas);
+            ////Rozwiazanie umowy istniejacej/nieistniejacej
+            //programowy.RozwiazUmowe(jakas);
 
-			////Usuniecie autora z listy
-			//programowy.UsunAutora(mojUlubieny);
+            ////Usuniecie autora z listy
+            //programowy.UsunAutora(mojUlubieny);
 
-			////Usuniecie autora niebedacego na liscie/wywolanie null
-			//Autor random = new Autor("J", "X", "111");
-			////programowy.UsunAutora(random);
-			////programowy.UsunAutora(null);
+            ////Usuniecie autora niebedacego na liscie/wywolanie null
+            //Autor random = new Autor("J", "X", "111");
+            ////programowy.UsunAutora(random);
+            ////programowy.UsunAutora(null);
 
-			////Autor a1 = new Autor("Jan", "Nowak", "111111111111");
-			////Pozycja p1 = new Ksiazka(a1, "album", "Krzyzacy");
-			/////Zatrudnienie a1
-			////Umowa u1 = new Umowa("01.01.2016", "01.01.2022");
-			////a1.DodajUmowe(u1);
-			/////Zlecenie na konkretna pozycje dla a1
-			////Pozycja p2 = new Ksiazka(a1, "romans", "Romeo");
-			////Umowa u2 = new UmowaDzielo("01.05.2018", "14.05.2018", p1);
-			////a1.DodajUmowe(u2);
-			/////Wyswietlenie wszystkich umow dla autora a1
-			////a1.PrzegladUmow();
-			/////Stworzenie dzialu programowego
-			/////Dodanie autora do dzialu
-			////glowny.DodajAutora(a1);
-			//Console.ReadKey();
+            ////Autor a1 = new Autor("Jan", "Nowak", "111111111111");
+            ////Pozycja p1 = new Ksiazka(a1, "album", "Krzyzacy");
+            /////Zatrudnienie a1
+            ////Umowa u1 = new Umowa("01.01.2016", "01.01.2022");
+            ////a1.DodajUmowe(u1);
+            /////Zlecenie na konkretna pozycje dla a1
+            ////Pozycja p2 = new Ksiazka(a1, "romans", "Romeo");
+            ////Umowa u2 = new UmowaDzielo("01.05.2018", "14.05.2018", p1);
+            ////a1.DodajUmowe(u2);
+            /////Wyswietlenie wszystkich umow dla autora a1
+            ////a1.PrzegladUmow();
+            /////Stworzenie dzialu programowego
+            /////Dodanie autora do dzialu
+            ////glowny.DodajAutora(a1);
+            //Console.ReadKey();
         }
     }
 }
