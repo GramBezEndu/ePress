@@ -143,7 +143,6 @@ namespace ePress
             Console.WriteLine("0. Wyjscie z programu");
             Console.WriteLine("1. Dzial programowy");
             Console.WriteLine("2. Dzial handlowy");
-            Console.WriteLine("3. Dzial druku");
             input = Console.ReadLine();
             Int32.TryParse(input, out wybor);
             switch (wybor)
@@ -156,9 +155,6 @@ namespace ePress
                 case 2:
                     HandlowyMenu(wydawnictwo);
                     break;
-                case 3:
-                    DrukuMenu(wydawnictwo);
-                    break;
                 default:
                     Console.WriteLine("Nieodpowiedni wybor");
                     break;
@@ -170,7 +166,7 @@ namespace ePress
             string input;
             Console.Clear();
             Console.WriteLine("0. Powrot do menu glownego");
-            Console.WriteLine("1. Sprzedaj pozycje"); //nie powinno być kup pozycje?
+            Console.WriteLine("1. Sprzedaj/kup pozycje");
             Console.WriteLine("2. Wyswietl pozycje");
             Console.WriteLine("3. Zlecenie druku");
             input = Console.ReadLine();
@@ -332,7 +328,8 @@ namespace ePress
                     }
                     finally
                     {
-                        ProgramowyMenu(wydawnictwo, autor);
+						//nie ma autora, wiec ponownie trzeba wybrac autora
+                        ProgramowyMenu(wydawnictwo, null);
                     }
                     break;
                 case 3:
@@ -483,7 +480,36 @@ namespace ePress
                         ProgramowyMenu(wydawnictwo, autor);
                     }
 					wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
-					Console.WriteLine("Nie wybrano żadnego autora");
+					Console.WriteLine("Podaj nr umowy do usuniecia");
+					int nrumowy;
+					string umowa;
+					Umowa umowadousuniecia;
+                    umowa = Console.ReadLine();
+					if(Int32.TryParse(umowa, out nrumowy))
+					{
+						try
+						{
+							umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
+							wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia)
+						}
+						catch(UmowaException ue)
+						{
+							Console.WriteLine(ue.Message);
+							if(ue.autorzwiazanyumowa!=null)
+							{
+								ue.autorzwiazanyumowa.Informacje();
+								foreach (Umowa umowyautora in ue.lista_umow_autora)
+                                    umowyautora.Informacje();
+							}
+
+						}
+						finally
+						{
+							ProgramowyMenu(wydawnictwo, autor);
+						}
+
+					}
+
                     break;
                 case 7:
                     if (autor == null)
@@ -500,28 +526,7 @@ namespace ePress
                     break;
             }
         }
-        static void DrukuMenu(Wydawnictwo wydawnictwo)
-        {
-            int wybor;
-            string input;
-            Console.Clear();
-            Console.WriteLine("0. Powrot do menu glownego");
-            Console.WriteLine("1. Zlecenie druku");
-            input = Console.ReadLine();
-            Int32.TryParse(input, out wybor);
-            switch (wybor)
-            {
-                case 0:
-                    MainMenu(wydawnictwo);
-                    break;
-                case 1:
-                    throw new NotImplementedException();
-                    break;
-                default:
-                    Console.WriteLine("Nieodpowiedni wybor");
-                    break;
-            }
-        }
+        
         static void Main(string[] args)
         {
             //Stworzenie wydawnictwa

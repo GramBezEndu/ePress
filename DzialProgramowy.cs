@@ -103,6 +103,13 @@ namespace ePress
                 tuple.Item1.Informacje();
             }
         }
+        public Umowa GetUmowa(Autor autor,int indeks)
+		{
+			var szukanaumowa = from szukanyautor in _autorzy where (szukanyautor.Item1.Equals(autor)) select szukanyautor.Item2[indeks - 1];
+			if (szukanaumowa == null)
+				throw new UmowaException("Nie ma takiej umowy");
+			return (Umowa)szukanaumowa;
+		}
     }
 	public class AutorException:Exception
 	{
@@ -115,12 +122,13 @@ namespace ePress
 	}
 	public class UmowaException : Exception
     {
-        public UmowaException(string message) : base(message) { }
+		public Autor autorzwiazanyumowa;
+		public List<Umowa> lista_umow_autora;
+		public UmowaException(string message) : base(message) { }
 		public UmowaException(string message, Autor autor,List<Umowa>lista_umow) : base(message)
         {
-            autor.Informacje();
-			foreach (Umowa umowa in lista_umow)
-				umowa.Informacje();
+			autorzwiazanyumowa = autor;
+			lista_umow_autora = lista_umow;
         }
     }
 }
