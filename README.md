@@ -1,2 +1,0 @@
-# ePress
-PO projekt
