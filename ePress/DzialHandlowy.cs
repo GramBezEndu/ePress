@@ -44,8 +44,7 @@ namespace ePress
         {
             foreach(Tuple<Pozycja, int> p in this._pozycje)
             {
-				Console.WriteLine(p.Item1+" Ilość sztuk: "+p.Item2); //tutaj jest założenie, że na liście są tylko dostępne pozycje (wg mnie inaczej)
-                //Pozycje mozna przegladac wszystkie, to czy sa na stanie aktualnie w dziale programowym to inna sprawa #Kuba
+				Console.WriteLine(p.Item1+" Ilość sztuk: "+p.Item2);
             }
         }
         public void ZlecenieDruku(DzialDruku dzialDruku, Pozycja p, int ilosc)
