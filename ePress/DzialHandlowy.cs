@@ -15,6 +15,7 @@ namespace ePress
         }
         public void Sprzedaj(Pozycja pozycja, int ilosc)
         {
+            bool sukces = false;
             if (ilosc <= 0)
 				throw new NieprawidlowaIloscException();
                 //dopisać wyjątki, gdy brak pozycji lub błędna liczba
@@ -22,6 +23,7 @@ namespace ePress
             {
                 if (p.Item1.Equals(pozycja))
                 {
+                    sukces = true;
                     if (p.Item2 >= ilosc)
                     {
                         //Zmiana ilosci ksiazek na stanie
@@ -29,6 +31,7 @@ namespace ePress
                         this._pozycje.Remove(p);
                         this._pozycje.Add(temp);
                         Console.WriteLine("Kupiono książkę");
+                        break;
                     }
                     //Za mala ilosc w magazynie
                     else
@@ -38,13 +41,16 @@ namespace ePress
                 }
             }
             //Brak pozycji
-			throw new BrakPozycjiException(pozycja);
+            if (sukces == false)
+			    throw new BrakPozycjiException(pozycja);
         }
         public void WyswietlPozycje()
         {
             foreach(Tuple<Pozycja, int> p in this._pozycje)
             {
-				Console.WriteLine(p.Item1+" Ilość sztuk: "+p.Item2);
+                p.Item1.Informacje();
+                Console.WriteLine("Ilosc sztuk: {0}\n", p.Item2);
+				//Console.WriteLine(p.Item1+" Ilość sztuk: "+p.Item2);
             }
         }
         public void ZlecenieDruku(DzialDruku dzialDruku, Pozycja p, int ilosc)
@@ -56,6 +62,7 @@ namespace ePress
         /// </summary>
         public void Set_pozycja(Pozycja pozycja, int ilosc)
         {
+            bool sukces = false;
             foreach(Tuple<Pozycja, int> temp in _pozycje)
             {
                 if(pozycja.Equals(temp.Item1))
@@ -63,10 +70,12 @@ namespace ePress
                     Tuple<Pozycja, int> temp2 = new Tuple<Pozycja, int>(pozycja, ilosc);
                     this._pozycje.Remove(temp);
                     this._pozycje.Add(temp2);
+                    sukces = true;
                     break;
                 }
             }
             //Nie znaleziono podanej pozycji na liscie
+            if (sukces == false)
 			throw new BrakPozycjiException(pozycja);
 
         }
