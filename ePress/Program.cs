@@ -12,7 +12,7 @@ namespace ePress
         /// Dodaje pozycje do listy w dziale handlowym
         /// zwraca dodaną pozycje, jezeli nie dodano - zwraca null
         /// </summary>
-        static private Pozycja DodajPozycje(Wydawnictwo wydawnictwo)
+        static private Pozycja DodajNowaPozycje(Wydawnictwo wydawnictwo)
         {
             string input;
             int wybor3;
@@ -28,6 +28,8 @@ namespace ePress
                     return null;
                 case 1:
                     Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
+                    if (autor_do_dodania == null)
+                        HandlowyMenu(wydawnictwo);
                     string tytul_do_dodania, czytaj;
                     int rok_do_dodania;
                     Console.WriteLine("Podaj tytul:");
@@ -54,15 +56,15 @@ namespace ePress
                             break;
                         case 1:
                             nowa = new KsiazkaAlbum(autor_do_dodania, tytul_do_dodania, rok_do_dodania);
-                            wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa, ilosc);
+                            wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), nowa, ilosc);
                             break;
                         case 2:
                             nowa = new KsiazkaRomans(autor_do_dodania, tytul_do_dodania, rok_do_dodania);
-                            wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa, ilosc);
+                            wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), nowa, ilosc);
                             break;
                         case 3:
                             nowa = new KsiazkaSensacyjna(autor_do_dodania, tytul_do_dodania, rok_do_dodania);
-                            wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa, ilosc);
+                            wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), nowa, ilosc);
                             break;
                         default:
                             Console.WriteLine("Niepoprawny wybor");
@@ -96,11 +98,11 @@ namespace ePress
                             break;
                         case 1:
                             nowa2 = new CzasopismoTygodnik(tytul_do_dodania2, numer_czasopisma2);
-                            wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa2, ilosc2);
+                            wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), nowa2, ilosc2);
                             break;
                         case 2:
                             nowa2 = new CzasopismoMiesiecznik(tytul_do_dodania2, numer_czasopisma2);
-                            wydawnictwo.Get_dzialHandlowy().Stworz_pozycje(nowa2, ilosc2);
+                            wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), nowa2, ilosc2);
                             break;
                         default:
                             break;
@@ -116,7 +118,7 @@ namespace ePress
             //int wybor;
             string input;
             Pozycja temp = null;
-            //"Podaj nazwe ksiazki/czasopisma, ktore chcesz kupic"
+            //"Podaj nazwe ksiazki/czasopisma"
             Console.WriteLine(komunikat);
             input = Console.ReadLine();
             temp = wydawnictwo.Get_dzialHandlowy().ZnajdzPozycje(input);
@@ -133,6 +135,46 @@ namespace ePress
             //Pomyslnie zakupiono pozycje!
             Console.WriteLine(komunikat);
         }
+        static private void HandlowySprzedajPozycje(Wydawnictwo wydawnictwo)
+        {
+            try
+            {
+                Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
+                SprzedajPozycje(wydawnictwo, temp, "Zakup pomyslny");
+                Console.ReadKey();
+            }
+            catch (BrakPozycjiException bpe)
+            {
+                Console.WriteLine(bpe.Message);
+                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
+            }
+            catch (NieprawidlowaIloscException nie)
+            {
+                Console.WriteLine(nie.Message);
+                if (nie.pozycja != null)
+                {
+                    nie.pozycja.Informacje();
+                    Console.WriteLine("W bazie znajduje się: " + nie.ilejestdostepnych);
+                    Console.WriteLine("Ilość w twoim zleceniu: " + nie.ilechcekupic);
+                    if (nie.ilejestdostepnych == 0)
+                        Console.WriteLine("Pozycja obecnie nie jest dostępna w magazynie");
+                    else
+                        Console.WriteLine("Spróbuj ponownie podając ilość nie przekraczającą dostępność w magazynie");
+                    Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                    Console.ReadKey();
+                }
+            }
+            finally
+            {
+                HandlowyMenu(wydawnictwo);
+            }
+        }
+        /// <summary>
+        /// Zwraca null jesli nie znaleziono autora
+        /// </summary>
+        /// <param name="wydawnictwo"></param>
+        /// <returns></returns>
         static private Autor ZnajdzAutora(Wydawnictwo wydawnictwo)
         {
             Autor temp = null;
@@ -143,10 +185,11 @@ namespace ePress
             {
                 temp = wydawnictwo.Get_dzialProgramowy().ZnajdzAutora(input);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("Wystąpił błąd: '{0}'", e);
-                temp = ZnajdzAutora(wydawnictwo);
+                Console.WriteLine("Wystąpił błąd: Nie znaleziono autora");
+                Console.ReadKey();
+                //temp = ZnajdzAutora(wydawnictwo);
             }
             return temp;
         }
@@ -160,20 +203,30 @@ namespace ePress
             Console.WriteLine("1. Dzial programowy");
             Console.WriteLine("2. Dzial handlowy");
             input = Console.ReadLine();
-            Int32.TryParse(input, out wybor);
-            switch (wybor)
+            if(Int32.TryParse(input, out wybor))
             {
-                case 0:
-                    break;
-                case 1:
-                    ProgramowyMenu(wydawnictwo, null);
-                    break;
-                case 2:
-                    HandlowyMenu(wydawnictwo);
-                    break;
-                default:
-                    Console.WriteLine("Nieodpowiedni wybor");
-                    break;
+                switch (wybor)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        ProgramowyMenu(wydawnictwo, null);
+                        break;
+                    case 2:
+                        HandlowyMenu(wydawnictwo);
+                        break;
+                    default:
+                        Console.WriteLine("Nieodpowiedni wybor");
+                        Console.ReadKey();
+                        MainMenu(wydawnictwo);
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nieodpowiedni wybor");
+                Console.ReadKey();
+                MainMenu(wydawnictwo);
             }
         }
         public static void HandlowyMenu(Wydawnictwo wydawnictwo)
@@ -187,44 +240,14 @@ namespace ePress
             Console.WriteLine("3. Zlecenie druku");
             input = Console.ReadLine();
             Int32.TryParse(input, out wybor);
-            switch (wybor)
+            switch(wybor)
             {
                 case 0:
                     MainMenu(wydawnictwo);
                     break;
                 case 1:
                     {
-                        try
-                        {
-                            Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
-                            SprzedajPozycje(wydawnictwo, temp, "Zakup pomyslny");
-                        }
-                        catch (BrakPozycjiException bpe)
-                        {
-                            Console.WriteLine(bpe.Message);
-                            Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                            Console.ReadKey();
-                        }
-                        catch (NieprawidlowaIloscException nie)
-                        {
-                            Console.WriteLine(nie.Message);
-                            if (nie.pozycja != null)
-                            {
-                                nie.pozycja.Informacje();
-                                Console.WriteLine("W bazie znajduje się: " + nie.ilejestdostepnych);
-                                Console.WriteLine("Ilość w twoim zleceniu: " + nie.ilechcekupic);
-                                if (nie.ilejestdostepnych == 0)
-                                    Console.WriteLine("Pozycja obecnie nie jest dostępna w magazynie");
-                                else
-                                    Console.WriteLine("Spróbuj ponownie podając ilość nie przekraczającą dostępność w magazynie");
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-                            }
-                        }
-                        finally
-                        {
-                            HandlowyMenu(wydawnictwo);
-                        }
+                        HandlowySprzedajPozycje(wydawnictwo);
                         break;
                     }
                 case 2:
@@ -247,20 +270,40 @@ namespace ePress
                         switch (wybor2)
                         {
                             case 0:
+                                HandlowyMenu(wydawnictwo);
                                 break;
                             case 1:
-                                ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
+                                try
+                                {
+                                    Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
+                                    Console.WriteLine("Podaj ilosc");
+                                    string czytaj = Console.ReadLine();
+                                    int ilosc;
+                                    Int32.TryParse(input, out ilosc);
+                                    wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), temp, ilosc);
+                                }
+                                catch(Exception)
+                                {
+                                    Console.WriteLine("Nie znaleziono ksiazki/czasopisma");
+                                    Console.ReadKey();
+                                }
+                                HandlowyMenu(wydawnictwo);
                                 break;
                             case 2:
-                                DodajPozycje(wydawnictwo);
+                                DodajNowaPozycje(wydawnictwo);
+                                HandlowyMenu(wydawnictwo);
                                 break;
                             default:
+                                Console.WriteLine("Nieprawidlowy wybor");
+                                Console.ReadKey();
+                                HandlowyMenu(wydawnictwo);
                                 break;
                         }
                         break;
                     }
                 default:
                     Console.WriteLine("Nieodpowiedni wybor");
+                    Console.ReadKey();
                     break;
             }
         }
@@ -534,11 +577,12 @@ namespace ePress
                         ProgramowyMenu(wydawnictwo, autor);
                     }
                     wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
-
+                    Console.ReadKey();
+                    ProgramowyMenu(wydawnictwo, autor);
                     break;
                 default:
                     Console.WriteLine("Nieodpowiedni wybor");
-
+                    Console.ReadKey();
                     break;
             }
         }
