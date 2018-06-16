@@ -14,7 +14,11 @@ namespace ePress
         public Autor(string imie, string nazwisko, string pesel)
         {
             this._imie = imie;
+            if(imie == null)
+				throw new AutorException("Musisz podać dane!");
             this._nazwisko = nazwisko;
+			if (nazwisko == null)
+                throw new AutorException("Musisz podać dane!");
 			if (pesel.Length != 11)
 				throw new AutorException("Nieprawidłowy format peselu dla danych:"+imie+" "+nazwisko+" "+pesel);
             this._pesel = pesel;

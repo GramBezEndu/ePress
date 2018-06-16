@@ -8,7 +8,6 @@ namespace ePress
 {
 	public class UmowaZlecenie : Umowa
 	{
-		//W UMLu jest pozycja
 		protected Pozycja _pozycja;
 		public UmowaZlecenie(Pozycja pozycja)
 		{
@@ -17,6 +16,7 @@ namespace ePress
 		public override void Informacje()
 		{
 			Console.WriteLine("Umowa zlecenie:");
+			_pozycja.Informacje();
 		}
 	}
 }

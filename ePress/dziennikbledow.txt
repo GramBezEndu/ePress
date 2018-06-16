@@ -1,0 +1,40 @@
+Dziennik błędów:
+Dział programowy:
+1.Dodaj Autora
+-należy dodać wyrażenia regularne(tak by imie i nazwisko były znakami, zaś pesel tylko cyframi)
+2.Usuń Autora
+3.Wybierz autora
+4.Przegląd wszystkich autorów
+5. Dodaj umowę
+-nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
+6. Rozwiąż umowę
+- nie rozwiązuje umowy po podaniu numeru
+7. Przegląd umów dla autora
+
+Dział handlowy:
+1.Sprzedaj/kup pozycje
+2.Wyświetl pozycje
+3.Zlecenie druku
+	DONE: 3.1 Znajdz czasopismo/ksiazke w bazie
+		case sensitive gdy podamy przeminelo z wiatrem a ksiazka nazywa sie Przeminelo z wiatrem to jej nie odnajdzie
+		#Kuba może być case sensitive
+	DONE: 3.2 Dodaj nowe czasopismo/ksiazke do bazy
+		to nie bug, ale z perspektywy UX, żeby dodać autora trzeba podać pesel autora,
+		który warto byłoby móc wczesniej sprawdzić
+		#Kuba można teraz wyjść z tego menu i sprawdzić w dziale handlowym
+		
+		jezeli dodamy ksiazke o tym samym autorze i tym samy tytule ale innej kategorii to utworzy jako oddzielna
+		(zakladamy ze jeden tytul moze byc jednej kategorii) 
+		#Kuba nigdzie nie ma takiego założenia
+		
+		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey() 
+		#Kuba W tej sytuacji dodrukowuje po prostu pozycje, komunikat może być ale nie jest on konieczny
+	FIXED-IN TESTING: 3.3 To reproduce:
+		1. Dodaj nowe czasopismo (nazwa: A, numer: 1, wydanie: CiagZnakow).
+		2. Naciśnij 0 by wyjść z programu -> pojawia się inne menu.
+	 FIXED-IN TESTING: 3.4 Dodawanie egzemplarzy do istniejącej książki:
+		Dodaje się za dużo. <>
+	OPEN:	StworzPozycje przyjmuje wartosci ujemne
+	FIXED-IN TESTING: Dodaj nowa ksiazke
+		Dodaje ilosc = 1 pomimo podania innej wartosci
+		
