@@ -35,8 +35,6 @@ namespace ePress
                     Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     if (autor_do_dodania == null)
                     {
-                        Console.WriteLine("Nieodpowiedni autor");
-                        Console.ReadKey();
                         return null;
                     }
                     string tytul_do_dodania, czytaj;
@@ -54,7 +52,7 @@ namespace ePress
                     int ilosc;
                     Console.WriteLine("Podaj ilosc");
                     czytaj = Console.ReadLine();
-                    if(!Int32.TryParse(input, out ilosc))
+                    if(!Int32.TryParse(czytaj, out ilosc))
                     {
                         Console.WriteLine("Nieprawidlowa ilosc");
                         Console.ReadKey();
@@ -213,6 +211,59 @@ namespace ePress
                 HandlowyMenu(wydawnictwo);
             }
         }
+        static private void HandlowyZlecenieDruku(Wydawnictwo wydawnictwo)
+        {
+            int wybor2;
+            Console.WriteLine("Drukuj:");
+            Console.WriteLine("0. Powrot");
+            Console.WriteLine("1. Znajdz czasopismo/ksiazke w bazie");
+            Console.WriteLine("2. Dodaj nowe czasopismo/ksiazke do bazy");
+            string input = Console.ReadLine();
+            if (!Int32.TryParse(input, out wybor2))
+            {
+                Console.WriteLine("Nieprawidlowy wybor");
+                Console.ReadKey();
+                MainMenu(wydawnictwo);
+                return;
+            }
+            switch (wybor2)
+            {
+                case 0:
+                    HandlowyMenu(wydawnictwo);
+                    return;
+                case 1:
+                    try
+                    {
+                        Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
+                        Console.WriteLine("Podaj ilosc");
+                        string czytaj = Console.ReadLine();
+                        int ilosc;
+                        if (!Int32.TryParse(czytaj, out ilosc))
+                        {
+                            Console.WriteLine("Niepoprawna ilosc");
+                            MainMenu(wydawnictwo);
+                            return;
+                        }
+                        wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), temp, ilosc);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Nie znaleziono ksiazki/czasopisma");
+                        Console.ReadKey();
+                    }
+                    HandlowyMenu(wydawnictwo);
+                    break;
+                case 2:
+                    DodajNowaPozycje(wydawnictwo);
+                    HandlowyMenu(wydawnictwo);
+                    return;
+                default:
+                    Console.WriteLine("Nieprawidlowy wybor");
+                    Console.ReadKey();
+                    HandlowyMenu(wydawnictwo);
+                    return;
+            }
+        }
         /// <summary>
         /// Zwraca null jesli nie znaleziono autora
         /// </summary>
@@ -309,56 +360,7 @@ namespace ePress
                     }
                 case 3:
                     {
-                        int wybor2;
-                        Console.WriteLine("Drukuj:");
-                        Console.WriteLine("0. Powrot");
-                        Console.WriteLine("1. Znajdz czasopismo/ksiazke w bazie");
-                        Console.WriteLine("2. Dodaj nowe czasopismo/ksiazke do bazy");
-                        input = Console.ReadLine();
-                        if (!Int32.TryParse(input, out wybor2))
-                        {
-                            Console.WriteLine("Nieprawidlowy wybor");
-                            Console.ReadKey();
-                            MainMenu(wydawnictwo);
-                            return;
-                        }
-                        switch (wybor2)
-                        {
-                            case 0:
-                                HandlowyMenu(wydawnictwo);
-                                return;
-                            case 1:
-                                try
-                                {
-                                    Pozycja temp = ZnajdzPozycje(wydawnictwo, "Podaj nazwe ksiazki/czasopisma");
-                                    Console.WriteLine("Podaj ilosc");
-                                    string czytaj = Console.ReadLine();
-                                    int ilosc;
-                                    if (!Int32.TryParse(czytaj, out ilosc))
-                                    {
-                                        Console.WriteLine("Niepoprawna ilosc");
-                                        MainMenu(wydawnictwo);
-                                        return;
-                                    }
-                                    wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), temp, ilosc);
-                                }
-                                catch(Exception)
-                                {
-                                    Console.WriteLine("Nie znaleziono ksiazki/czasopisma");
-                                    Console.ReadKey();
-                                }
-                                HandlowyMenu(wydawnictwo);
-                                return;
-                            case 2:
-                                DodajNowaPozycje(wydawnictwo);
-                                HandlowyMenu(wydawnictwo);
-                                return;
-                            default:
-                                Console.WriteLine("Nieprawidlowy wybor");
-                                Console.ReadKey();
-                                HandlowyMenu(wydawnictwo);
-                                return;
-                        }
+                        HandlowyZlecenieDruku(wydawnictwo);
                         break;
                     }
                 default:
@@ -646,11 +648,10 @@ namespace ePress
                     break;
             }
         }
-        
         static void Main(string[] args)
         {
             //Stworzenie wydawnictwa
-            Wydawnictwo ePress = new Wydawnictwo(new DzialDruku(), new DzialHandlowy(), new DzialProgramowy());
+            Wydawnictwo ePress = new Wydawnictwo(new DzialDruku(), new DzialHandlowy(), new DzialProgramowy(), "ePress");
             //Pozycja ksiazka1 = new CzasopismoTygodnik("Mleko", 1);
             //ePress.Get_dzialHandlowy().Set_pozycja(ksiazka1, 10);
 
@@ -661,57 +662,6 @@ namespace ePress
 
             //Zapisz dane
 
-            /////Stworzenie autorow
-            //DzialProgramowy programowy = ePress.Get_dzialProgramowy();
-            //programowy.DodajAutora(new Autor("Jan", "Nowak", "87122113892"));
-            //programowy.DodajAutora(new Autor("Anna", "Byk", "96112808085"));
-            //programowy.DodajAutora(new Autor("Wojciech", "Krawczyk", "82062407876"));
-
-            ////Znalezienie autora po peselu
-            //Autor mojUlubieny = programowy.ZnajdzAutora("87122113892");
-            //Autor mojUlubieny2 = programowy.ZnajdzAutora("96112808085");
-            //Autor mojUlubieny3 = programowy.ZnajdzAutora("82062407876");
-
-            //         //Dodanie umow poprawnych/niepoprawnych
-            //         Umowa jakas = new UmowaZlecenie(new CzasopismoMiesiecznik("Miesiecznik Mietka", 1));
-            //programowy.DodajUmowe(mojUlubieny, new UmowaPraca(new DateTime(2018,6,1), new DateTime(2020,6,1)));
-            //programowy.DodajUmowe(mojUlubieny, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny, "Ogniem i mieczem", 2018)));
-            //         programowy.DodajUmowe(mojUlubieny, jakas);
-            //programowy.DodajUmowe(mojUlubieny2, new UmowaDzielo(new DateTime(2018,6,01), new DateTime(2018, 5, 25), new KsiazkaRomans(mojUlubieny2, "Tytul 1", 2018)));
-            //programowy.DodajUmowe(mojUlubieny3, new UmowaZlecenie(new KsiazkaAlbum(mojUlubieny3, "Album A", 2018)));
-
-            ////Przeglad wszystkich autorow
-            //programowy.PrzegladAutorow();
-
-            ////Przeglad umow dla jednego autora
-            //programowy.PrzegladUmow(mojUlubieny);
-
-            ////Rozwiazanie umowy istniejacej/nieistniejacej
-            //programowy.RozwiazUmowe(jakas);
-
-            ////Usuniecie autora z listy
-            //programowy.UsunAutora(mojUlubieny);
-
-            ////Usuniecie autora niebedacego na liscie/wywolanie null
-            //Autor random = new Autor("J", "X", "111");
-            ////programowy.UsunAutora(random);
-            ////programowy.UsunAutora(null);
-
-            ////Autor a1 = new Autor("Jan", "Nowak", "111111111111");
-            ////Pozycja p1 = new Ksiazka(a1, "album", "Krzyzacy");
-            /////Zatrudnienie a1
-            ////Umowa u1 = new Umowa("01.01.2016", "01.01.2022");
-            ////a1.DodajUmowe(u1);
-            /////Zlecenie na konkretna pozycje dla a1
-            ////Pozycja p2 = new Ksiazka(a1, "romans", "Romeo");
-            ////Umowa u2 = new UmowaDzielo("01.05.2018", "14.05.2018", p1);
-            ////a1.DodajUmowe(u2);
-            /////Wyswietlenie wszystkich umow dla autora a1
-            ////a1.PrzegladUmow();
-            /////Stworzenie dzialu programowego
-            /////Dodanie autora do dzialu
-            ////glowny.DodajAutora(a1);
-            //Console.ReadKey();
         }
     }
 }
