@@ -35,4 +35,6 @@ Dział handlowy:
 	 FIXED-IN TESTING: 3.4 Dodawanie egzemplarzy do istniejącej książki:
 		Dodaje się za dużo. <>
 	OPEN:	StworzPozycje przyjmuje wartosci ujemne
+	OPEN: Dodaj nowa ksiazke
+		Dodaje ilosc = 1 pomimo podania innej wartosci
 		
