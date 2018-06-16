@@ -1,0 +1,27 @@
+Dziennik błędów:
+Dział programowy:
+1.Dodaj Autora
+2.Usuń Autora
+3.Wybierz autora
+4.Przegląd wszystkich autorów
+5. Dodaj umowę
+-nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
+6. Rozwiąż umowę
+- nie rozwiązuje umowy po podaniu numeru
+7. Przegląd umów dla autora
+
+Dział handlowy:
+1.Sprzedaj/kup pozycje
+2.Wyświetl pozycje
+3.Zlecenie druku
+	3.1 Znajdz czasopismo/ksiazke w bazie
+		case sensitive gdy podamy przeminelo z wiatrem a ksiazka nazywa sie Przeminelo z wiatrem to jej nie odnajdzie
+	3.2 Dodaj nowe czasopismo/ksiazke do bazy
+		to nie bug, ale z perspektywy UX, żeby dodać autora trzeba podać pesel autora,
+		który warto byłoby móc wczesniej sprawdzić
+		
+		jezeli dodamy ksiazke o tym samym autorze i tym samy tytule ale innej kategorii to utworzy jako oddzielna
+		(zakladamy ze jeden tytul moze byc jednej kategorii
+		
+		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey()
+		
