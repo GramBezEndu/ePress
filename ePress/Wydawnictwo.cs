@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
 	public class Wydawnictwo
 	{
 		private DzialDruku _dzialDruku;
@@ -31,5 +32,5 @@ namespace ePress
 		{
 			return this._dzialProgramowy;
 		}
-	}
+    }
 }

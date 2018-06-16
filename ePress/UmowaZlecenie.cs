@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
 	public class UmowaZlecenie : Umowa
 	{
 		protected Pozycja _pozycja;

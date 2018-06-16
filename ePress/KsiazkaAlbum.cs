@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class KsiazkaAlbum : Ksiazka
     {
         public KsiazkaAlbum(Autor autor, string tytul, int rokWydania) : base(autor, tytul, rokWydania) { }

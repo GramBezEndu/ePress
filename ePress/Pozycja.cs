@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public abstract class Pozycja : IInfo, IEquatable<Pozycja>
     {
         protected string _tytul;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class Autor : IEquatable<Autor>
     {
         private string _imie;

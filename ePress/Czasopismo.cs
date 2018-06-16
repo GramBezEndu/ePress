@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public abstract class Czasopismo : Pozycja
     {
 		protected int _numer;
