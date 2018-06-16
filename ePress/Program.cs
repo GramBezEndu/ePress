@@ -21,7 +21,12 @@ namespace ePress
             Console.WriteLine("1. Ksiazka");
             Console.WriteLine("2. Czasopismo");
             input = Console.ReadLine();
-            Int32.TryParse(input, out wybor3);
+            if (!Int32.TryParse(input, out wybor3))
+            {
+                Console.WriteLine("Nieprawidlowy wybor");
+                Console.ReadKey();
+                return null;
+            }
             switch (wybor3)
             {
                 case 0:
@@ -29,18 +34,32 @@ namespace ePress
                 case 1:
                     Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     if (autor_do_dodania == null)
-                        HandlowyMenu(wydawnictwo);
+                    {
+                        Console.WriteLine("Nieodpowiedni autor");
+                        Console.ReadKey();
+                        return null;
+                    }
                     string tytul_do_dodania, czytaj;
                     int rok_do_dodania;
                     Console.WriteLine("Podaj tytul:");
                     tytul_do_dodania = Console.ReadLine();
                     Console.WriteLine("Podaj rok wydania:");
                     czytaj = Console.ReadLine();
-                    Int32.TryParse(czytaj, out rok_do_dodania);
+                    if (!Int32.TryParse(czytaj, out rok_do_dodania))
+                    {
+                        Console.WriteLine("Nieprawidlowy rok");
+                        Console.ReadKey();
+                        return null;
+                    }
                     int ilosc;
                     Console.WriteLine("Podaj ilosc");
                     czytaj = Console.ReadLine();
-                    Int32.TryParse(input, out ilosc);
+                    if(!Int32.TryParse(input, out ilosc))
+                    {
+                        Console.WriteLine("Nieprawidlowa ilosc");
+                        Console.ReadKey();
+                        return null;
+                    }
                     int wybor4;
                     Console.WriteLine("Wybierz typ ksiazki:");
                     Console.WriteLine("0. Anuluj dodawanie ksiazki");
@@ -48,7 +67,12 @@ namespace ePress
                     Console.WriteLine("2. Ksiazka romans");
                     Console.WriteLine("3. Ksiazka sensacyjna");
                     input = Console.ReadLine();
-                    Int32.TryParse(input, out wybor4);
+                    if(!Int32.TryParse(input, out wybor4))
+                    {
+                        Console.WriteLine("Nieprawidlowa ilosc");
+                        Console.ReadKey();
+                        return null;
+                    }
                     Pozycja nowa = null;
                     switch (wybor4)
                     {
@@ -69,8 +93,7 @@ namespace ePress
                         default:
                             Console.WriteLine("Niepoprawny wybor");
                             Console.ReadKey();
-                            HandlowyMenu(wydawnictwo);
-                            break;
+                            return null;
                     }
                     return nowa;
                 case 2:
@@ -80,17 +103,32 @@ namespace ePress
                     tytul_do_dodania2 = Console.ReadLine();
                     Console.WriteLine("Podaj numer czasopisma");
                     czytaj2 = Console.ReadLine();
-                    Int32.TryParse(czytaj2, out numer_czasopisma2);
+                    if (!Int32.TryParse(czytaj2, out numer_czasopisma2))
+                    {
+                        Console.WriteLine("Nieprawidlowy numer czasopisma");
+                        Console.ReadKey();
+                        return null;
+                    }
                     int ilosc2;
                     Console.WriteLine("Podaj ilosc");
                     czytaj2 = Console.ReadLine();
-                    Int32.TryParse(czytaj2, out ilosc2);
+                    if (!Int32.TryParse(czytaj2, out ilosc2))
+                    {
+                        Console.WriteLine("Niepoprawna ilosc");
+                        Console.ReadKey();
+                        return null;
+                    }
                     Console.WriteLine("Wybierz typ czasopisma:");
                     Console.WriteLine("0. Anuluj dodawanie czasopisma");
                     Console.WriteLine("1. Czasopismo tygodnik");
                     Console.WriteLine("2. Czasopismo miesiecznik");
                     input = Console.ReadLine();
-                    Int32.TryParse(input, out wybor5);
+                    if (!Int32.TryParse(input, out wybor5))
+                    {
+                        Console.WriteLine("Nieprawidlowy wybor");
+                        Console.ReadKey();
+                        return null;
+                    }
                     Pozycja nowa2 = null;
                     switch (wybor5)
                     {
@@ -130,7 +168,12 @@ namespace ePress
             int ilosc;
             Console.WriteLine("Podaj ilosc");
             input = Console.ReadLine();
-            Int32.TryParse(input, out ilosc);
+            if (!Int32.TryParse(input, out ilosc))
+            {
+                Console.WriteLine("Nieprawidlowa ilosc");
+                Console.ReadKey();
+                return;
+            }
             wydawnictwo.Get_dzialHandlowy().Sprzedaj(pozycja, ilosc);
             //Pomyslnie zakupiono pozycje!
             Console.WriteLine(komunikat);
@@ -239,12 +282,18 @@ namespace ePress
             Console.WriteLine("2. Wyswietl pozycje");
             Console.WriteLine("3. Zlecenie druku");
             input = Console.ReadLine();
-            Int32.TryParse(input, out wybor);
+            if (!Int32.TryParse(input, out wybor))
+            {
+                Console.WriteLine("Nieprawidlowy wybor");
+                Console.ReadKey();
+                MainMenu(wydawnictwo);
+                return;
+            }
             switch(wybor)
             {
                 case 0:
                     MainMenu(wydawnictwo);
-                    break;
+                    return;
                 case 1:
                     {
                         HandlowySprzedajPozycje(wydawnictwo);
@@ -266,12 +315,18 @@ namespace ePress
                         Console.WriteLine("1. Znajdz czasopismo/ksiazke w bazie");
                         Console.WriteLine("2. Dodaj nowe czasopismo/ksiazke do bazy");
                         input = Console.ReadLine();
-                        Int32.TryParse(input, out wybor2);
+                        if (!Int32.TryParse(input, out wybor2))
+                        {
+                            Console.WriteLine("Nieprawidlowy wybor");
+                            Console.ReadKey();
+                            MainMenu(wydawnictwo);
+                            return;
+                        }
                         switch (wybor2)
                         {
                             case 0:
                                 HandlowyMenu(wydawnictwo);
-                                break;
+                                return;
                             case 1:
                                 try
                                 {
@@ -279,7 +334,12 @@ namespace ePress
                                     Console.WriteLine("Podaj ilosc");
                                     string czytaj = Console.ReadLine();
                                     int ilosc;
-                                    Int32.TryParse(input, out ilosc);
+                                    if (!Int32.TryParse(czytaj, out ilosc))
+                                    {
+                                        Console.WriteLine("Niepoprawna ilosc");
+                                        MainMenu(wydawnictwo);
+                                        return;
+                                    }
                                     wydawnictwo.Get_dzialHandlowy().ZlecenieDruku(wydawnictwo.Get_dzialDruku(), temp, ilosc);
                                 }
                                 catch(Exception)
@@ -288,16 +348,16 @@ namespace ePress
                                     Console.ReadKey();
                                 }
                                 HandlowyMenu(wydawnictwo);
-                                break;
+                                return;
                             case 2:
                                 DodajNowaPozycje(wydawnictwo);
                                 HandlowyMenu(wydawnictwo);
-                                break;
+                                return;
                             default:
                                 Console.WriteLine("Nieprawidlowy wybor");
                                 Console.ReadKey();
                                 HandlowyMenu(wydawnictwo);
-                                break;
+                                return;
                         }
                         break;
                     }
