@@ -26,10 +26,15 @@ namespace ePress
                     if(temp is DrukarniaAlbumowa)
                     {
                         temp.ZlecenieDruku(dzialHandlowy, pozycja, ilosc);
+                        break;
                     }
                 }
             }
-            //throw new NotImplementedException();
+            else
+            {
+                Drukarnia temp = _drukarnie.First();
+                temp.ZlecenieDruku(dzialHandlowy, pozycja, ilosc);
+            }
         }
     }
 }
