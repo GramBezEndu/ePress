@@ -481,9 +481,9 @@ namespace ePress
                                 data = Console.ReadLine();
                                 datazakonczenia = DateTime.Parse(data);
 								Console.WriteLine("Musisz dodac pozycje");
-								//Pozycja pozycja = DodajPozycje(wydawnictwo);
-								//UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia,pozycja);
-                                //wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);
+								Pozycja pozycja = DodajNowaPozycje(wydawnictwo);
+								UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia,pozycja);
+                                wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);
                             }
                             catch (FormatException)
                             {
@@ -511,9 +511,9 @@ namespace ePress
                             {
                                
                                 Console.WriteLine("Musisz dodac pozycje");
-                               /* Pozycja pozycja = DodajPozycje(wydawnictwo);
-                                UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia, pozycja);
-                                wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);*/
+                                Pozycja pozycja = DodajNowaPozycje(wydawnictwo);
+								UmowaZlecenie umowaZlecenie = new UmowaZlecenie(pozycja);
+								wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaZlecenie);
                             }
                             catch (AutorException ae)
                             {

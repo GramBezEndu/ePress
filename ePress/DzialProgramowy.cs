@@ -53,6 +53,8 @@ namespace ePress
 					if (tuple.Item2.Remove(umowa) == true)
 					{
 						Console.WriteLine("Pomyslnie usunieto umowe");
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+						Console.ReadKey();
 						return;
 					}
 					else
