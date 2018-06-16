@@ -551,6 +551,10 @@ namespace ePress
 							umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
                             wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia);
 						}
+						catch(IndexOutOfRangeException ior)
+						{
+							Console.WriteLine(ior.Message);
+       						}
 						catch(UmowaException ue)
 						{
 							Console.WriteLine(ue.Message);
