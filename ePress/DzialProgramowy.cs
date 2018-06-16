@@ -53,6 +53,8 @@ namespace ePress
 					if (tuple.Item2.Remove(umowa) == true)
 					{
 						Console.WriteLine("Pomyslnie usunieto umowe");
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+						Console.ReadKey();
 						return;
 					}
 					else
@@ -111,10 +113,22 @@ namespace ePress
         }
         public Umowa GetUmowa(Autor autor,int indeks)
 		{
-			var szukanaumowa = from szukanyautor in _autorzy where (szukanyautor.Item1.Equals(autor)) select szukanyautor.Item2[indeks - 1];
-			if (szukanaumowa == null)
-				throw new UmowaException("Nie ma takiej umowy");
-			return (Umowa)szukanaumowa;
+			foreach(Tuple<Autor, List<Umowa>> tuple in this._autorzy)
+			{
+				if(tuple.Item1.Equals(autor))
+				{
+					Umowa szukanaumowa = tuple.Item2[indeks - 1];
+					if(szukanaumowa!=null)
+					{
+						return szukanaumowa;
+					}                        
+				}
+			}
+			throw new UmowaException("Nie ma takiej umowy");
+			/*var szukanaumowa = from szukanyautor in _autorzy where (szukanyautor.Item1.Equals(autor)) select szukanyautor.Item2[indeks-1];
+			if(szukanaumowa!=null)
+				return szukanaumowa;
+			throw new UmowaException("Nie ma takiej umowy");*/
 		}
     }
 	public class AutorException:Exception
