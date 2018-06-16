@@ -378,7 +378,7 @@ namespace ePress
             Console.WriteLine("0. Powrot do menu glownego");
             Console.WriteLine("1. Dodaj autora");
             Console.WriteLine("2. Usun autora");
-            Console.WriteLine("3. Znajdz autora");
+            Console.WriteLine("3. Wybierz autora");
             Console.WriteLine("4. Przeglad wszystkich autorow");
             Console.WriteLine("5. Dodaj umowe");
             Console.WriteLine("6. Rozwiaz umowe");
