@@ -10,8 +10,10 @@ DONE: nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa 
 - dodaje umowy, które kończą się zanim się zaczęły
 - brak warunku sprawdzającego czy czas rozpoczęcia jest mniejszy niż czas zakonczenia ->UmowaException
 6. Rozwiąż umowę
-- nie rozwiązuje umowy po podaniu numeru
+	- gdy nie mamy wybranego autora nie wyswietla sie komunikat (dla nr 5 się wyświetla więc trzeba skopiować)
+	- nie rozwiązuje umowy po podaniu numeru
 7. Przegląd umów dla autora
+	- gdy nie mamy wybranego autora nie wyswietla sie komunikat (dla nr 5 się wyświetla więc trzeba skopiować)
 
 Dział handlowy:
 1.Sprzedaj/kup pozycje
@@ -31,12 +33,12 @@ Dział handlowy:
 		
 		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey() 
 		#Kuba W tej sytuacji dodrukowuje po prostu pozycje, komunikat może być ale nie jest on konieczny
-	FIXED-IN TESTING: 3.3 To reproduce:
+	FIXED: 3.3 To reproduce:
 		1. Dodaj nowe czasopismo (nazwa: A, numer: 1, wydanie: CiagZnakow).
 		2. Naciśnij 0 by wyjść z programu -> pojawia się inne menu.
-	 FIXED-IN TESTING: 3.4 Dodawanie egzemplarzy do istniejącej książki:
+	 FIXED: 3.4 Dodawanie egzemplarzy do istniejącej książki:
 		Dodaje się za dużo. <>
-	OPEN:	StworzPozycje przyjmuje wartosci ujemne
-	FIXED-IN TESTING: Dodaj nowa ksiazke
+	FIXED:	StworzPozycje przyjmuje wartosci ujemne
+	FIXED: Dodaj nowa ksiazke
 		Dodaje ilosc = 1 pomimo podania innej wartosci
 		
