@@ -36,6 +36,9 @@ namespace ePress
 				if (tuple.Item1.Equals(autor))
 				{
 					tuple.Item2.Add(umowa);
+					Console.WriteLine("Pomyslnie dodano umowe");
+					Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                    Console.ReadKey();
 					return;
 				}
     		}
@@ -72,7 +75,7 @@ namespace ePress
 					 i = 0;
 					foreach(Umowa umowa in tuple.Item2)
 					{
-						Console.WriteLine(i+":");
+						Console.WriteLine(i+1+":");
 						umowa.Informacje();
 					}
                 }
@@ -86,6 +89,8 @@ namespace ePress
 			{
 				this._autorzy.Add(new Tuple<Autor, List<Umowa>>(autor, new List<Umowa>()));
 				Console.WriteLine("Pomyślnie dodano autora");
+				Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
 			}
 			else
 				throw new AutorException("Autor już istnieje w bazie", posiadaczetegopeselu.ElementAt(0).Item1);
