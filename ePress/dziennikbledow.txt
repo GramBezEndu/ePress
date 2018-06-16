@@ -1,6 +1,7 @@
 Dziennik błędów:
 Dział programowy:
 1.Dodaj Autora
+-należy dodać wyrażenia regularne(tak by imie i nazwisko było znakami, zaś pesel tylko cyframi)
 2.Usuń Autora
 3.Wybierz autora
 4.Przegląd wszystkich autorów
