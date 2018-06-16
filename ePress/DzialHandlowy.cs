@@ -77,7 +77,6 @@ namespace ePress
             //Nie znaleziono podanej pozycji na liscie
             if (sukces == false)
 			throw new BrakPozycjiException(pozycja);
-
         }
         public void Stworz_pozycje(Pozycja pozycja, int ilosc)
         {
