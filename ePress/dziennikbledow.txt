@@ -14,19 +14,23 @@ Dział handlowy:
 1.Sprzedaj/kup pozycje
 2.Wyświetl pozycje
 3.Zlecenie druku
-	3.1 Znajdz czasopismo/ksiazke w bazie
+	DONE: 3.1 Znajdz czasopismo/ksiazke w bazie
 		case sensitive gdy podamy przeminelo z wiatrem a ksiazka nazywa sie Przeminelo z wiatrem to jej nie odnajdzie
-	3.2 Dodaj nowe czasopismo/ksiazke do bazy
+		#Kuba może być case sensitive
+	DONE: 3.2 Dodaj nowe czasopismo/ksiazke do bazy
 		to nie bug, ale z perspektywy UX, żeby dodać autora trzeba podać pesel autora,
 		który warto byłoby móc wczesniej sprawdzić
+		#Kuba można teraz wyjść z tego menu i sprawdzić w dziale handlowym
 		
 		jezeli dodamy ksiazke o tym samym autorze i tym samy tytule ale innej kategorii to utworzy jako oddzielna
-		(zakladamy ze jeden tytul moze byc jednej kategorii
+		(zakladamy ze jeden tytul moze byc jednej kategorii) 
+		#Kuba nigdzie nie ma takiego założenia
 		
-		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey()
+		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey() 
+		#Kuba W tej sytuacji dodrukowuje po prostu pozycje, komunikat może być ale nie jest on konieczny
 	FIXED-IN TESTING: 3.3 To reproduce:
 		1. Dodaj nowe czasopismo (nazwa: A, numer: 1, wydanie: CiagZnakow).
 		2. Naciśnij 0 by wyjść z programu -> pojawia się inne menu.
-	3.4 Dodawanie egzemplarzy do istniejącej książki:
-		Przy podaniu ciągu znaków zwiększa się ilość w magazynie.
+	 FIXED-IN TESTING: 3.4 Dodawanie egzemplarzy do istniejącej książki:
+		Dodaje się za dużo. <>
 		
