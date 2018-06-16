@@ -6,8 +6,9 @@ Dział programowy:
 3.Wybierz autora
 4.Przegląd wszystkich autorów
 5. Dodaj umowę
--nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
--dodaje umowy, które kończą się zanim się zaczęły
+DONE: nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
+- dodaje umowy, które kończą się zanim się zaczęły
+- brak warunku sprawdzającego czy czas rozpoczęcia jest mniejszy niż czas zakonczenia ->UmowaException
 6. Rozwiąż umowę
 - nie rozwiązuje umowy po podaniu numeru
 7. Przegląd umów dla autora
