@@ -7,8 +7,8 @@ Dział programowy:
 4.Przegląd wszystkich autorów
 5. Dodaj umowę
 DONE: nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
-	5.1, 6.1, 7.1 To reproduce:
-		1. Przejdź do działu programowego i nie dodając autora kliknij opcję 5/6/7.
+	2.1, 5.1, 6.1, 7.1 To reproduce:
+		1. Przejdź do działu programowego i nie dodając autora kliknij opcję 2/5/6/7.
 		2. Naciśnij 0 by powrócić do menu -> pojawia się inne menu
 - dodaje umowy, które kończą się zanim się zaczęły
 - brak warunku sprawdzającego czy czas rozpoczęcia jest mniejszy niż czas zakonczenia ->UmowaException
