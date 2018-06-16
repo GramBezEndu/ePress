@@ -24,4 +24,9 @@ Dział handlowy:
 		(zakladamy ze jeden tytul moze byc jednej kategorii
 		
 		przy próbie dodania tego samego dzieła (wszystkie dane takie same) komunikat sie nie wyswietla, brak ReadKey()
+	3.3 To reproduce:
+		1. Dodaj nowe czasopismo (nazwa: A, numer: 1, wydanie: CiagZnakow).
+		2. Naciśnij 0 by wyjść z programu -> pojawia się inne menu.
+	3.4 Dodawanie egzemplarzy do istniejącej książki:
+		Przy podaniu ciągu znaków zwiększa się ilość w magazynie.
 		
