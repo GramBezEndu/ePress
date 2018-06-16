@@ -349,5 +349,35 @@ namespace ePressTests
             }
 			catch (BrakPozycjiException) { Assert.Fail(); }
         }
+		[Test()]
+        public void IloscSieZgadza()
+        {
+            DzialHandlowy dzialHandlowy = new DzialHandlowy();
+            Autor autor = new Autor("George", "Martin", "43323269401");
+            Ksiazka ksiazka = new KsiazkaSensacyjna(autor, "Wichry Zimy", 2040);
+            dzialHandlowy.Stworz_pozycje(ksiazka, 33000);
+            try
+            {
+				dzialHandlowy.Set_pozycja(ksiazka, 200000);
+				dzialHandlowy.Get_ilosc(ksiazka).Equals(233000);
+            }
+            catch (BrakPozycjiException) { Assert.Fail(); }
+        }
+		[Test()]
+        public void NastawWodeNaNiestiniejacaHerbate()
+        {
+            DzialHandlowy dzialHandlowy = new DzialHandlowy();
+            Autor autor = new Autor("George", "Martin", "43323269401");
+            Ksiazka ksiazka = new KsiazkaSensacyjna(autor, "Wichry Zimy", 2040);
+			Ksiazka ksiazka2 = new KsiazkaSensacyjna(autor, "Final Gry o Tron", 2099);
+            dzialHandlowy.Stworz_pozycje(ksiazka, 33000);
+            try
+            {
+                dzialHandlowy.Set_pozycja(ksiazka2, 200000);
+				Assert.Fail();
+            }
+            catch (BrakPozycjiException) { Assert.Pass(); }
+        }
+
 	}
 }
