@@ -66,17 +66,18 @@ namespace ePress
 		public void PrzegladUmow(Autor autor)
 		{
 			int i; //numeruje umowy - potrzebne do metody RozwiazUmowe
+			i = 1;
 			foreach (Tuple<Autor, List<Umowa>> tuple in this._autorzy)
             {
 				if (tuple.Item1.Equals(autor))
                 {
                     Console.WriteLine("Przeglad umow dla autora:");
                     tuple.Item1.Informacje();
-					 i = 0;
 					foreach(Umowa umowa in tuple.Item2)
 					{
-						Console.WriteLine(i+1+":");
+						Console.WriteLine(i+":");
 						umowa.Informacje();
+						i++;
 					}
                 }
             }
