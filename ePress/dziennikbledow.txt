@@ -7,6 +7,7 @@ Dział programowy:
 4.Przegląd wszystkich autorów
 5. Dodaj umowę
 -nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa zlecenie)
+-dodaje umowy, które kończą się zanim się zaczęły
 6. Rozwiąż umowę
 - nie rozwiązuje umowy po podaniu numeru
 7. Przegląd umów dla autora
