@@ -12,6 +12,7 @@ DONE: nie dodaje umów wymagających utworzenie pozycji (umowa o dzieło, umowa 
 		2. Naciśnij 0 by powrócić do menu -> pojawia się inne menu
 - dodaje umowy, które kończą się zanim się zaczęły
 - brak warunku sprawdzającego czy czas rozpoczęcia jest mniejszy niż czas zakonczenia ->UmowaException
+- dodaje umowe o dzielo bez wskaźnika na pozycję, gdy w trakcie dodawania umowy nie wybrano pozycji (wystąpił błąd)
 6. Rozwiąż umowę
 	- gdy nie mamy wybranego autora nie wyswietla sie komunikat (dla nr 5 się wyświetla więc trzeba skopiować)
 	- nie rozwiązuje umowy po podaniu numeru
