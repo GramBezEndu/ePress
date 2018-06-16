@@ -38,7 +38,10 @@ namespace ePress
 				{
 					try
                     {
+                        //Dzial_handlowy.Set_pozycja(Pozycja, ilosc + Pozycja.Get_ilosc()); 
                         tuple.Item1.Set_pozycja(tuple.Item2, tuple.Item3 + tuple.Item1.Get_ilosc(tuple.Item2));
+                        //Console.WriteLine("Ile: {0}", tuple.Item3 + tuple.Item1.Get_ilosc(tuple.Item2));
+                        //Console.ReadKey();
                     }
 					catch(BrakPozycjiException brakpozycji)
 					{
@@ -47,8 +50,8 @@ namespace ePress
 						tuple.Item1.Stworz_pozycje(tuple.Item2, tuple.Item3); //trzeba sprawdzic czy ma to rece i nogi
                         Console.ReadKey();
 					}
-
-				}
+                }
+                this._zlecenia.Clear();
 			}
 			else
 			{
