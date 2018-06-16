@@ -12,11 +12,12 @@ namespace ePress
 		private DzialHandlowy _dzialHandlowy;
 		private DzialProgramowy _dzialProgramowy;
 		private string _nazwa;
-		public Wydawnictwo(DzialDruku dzialDruku, DzialHandlowy dzialHandlowy, DzialProgramowy dzialProgramowy)
+		public Wydawnictwo(DzialDruku dzialDruku, DzialHandlowy dzialHandlowy, DzialProgramowy dzialProgramowy, string nazwa)
 		{
 			this._dzialDruku = dzialDruku;
 			this._dzialHandlowy = dzialHandlowy;
 			this._dzialProgramowy = dzialProgramowy;
+            this._nazwa = nazwa;
 		}
 		public DzialDruku Get_dzialDruku()
 		{
