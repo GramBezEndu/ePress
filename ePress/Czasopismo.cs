@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +16,9 @@ namespace ePress
         }
 		public override void Informacje()
 		{
+            string typ = this.GetType().ToString().Remove(0,7);
 			Console.WriteLine("tytuł: {0}", this._tytul);
-			Console.WriteLine("rodzaj: {0}", this.GetType());
+			Console.WriteLine("rodzaj: {0}", typ);
 			Console.WriteLine("numer: {0}", this._numer);
 		}
         public override bool Equals(Pozycja pozycja)
