@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +16,21 @@ namespace ePress
             this._autor = autor;
             this._rokWydania = rokWydania;
         }
-		public override void Informacje()
-		{
-			Console.WriteLine("tytuł: {0}", this._tytul);
-			Console.WriteLine("rodzaj: {0}", this.GetType());
-			Console.WriteLine("rok wydania: {0}", this._rokWydania);
-			this._autor.Informacje();
-		}
+        public override void Informacje()
+        {
+            string typ = this.GetType().ToString().Remove(0, 7);
+            Console.WriteLine("tytuł: {0}", this._tytul);
+            Console.WriteLine("rodzaj: {0}", typ);
+            Console.WriteLine("rok wydania: {0}", this._rokWydania);
+            try
+            {
+                this._autor.Informacje();
+            }
+            catch
+            {
+                Console.WriteLine("Brak autora");
+            }
+        }
         public override bool Equals(Pozycja pozycja)
         {
             if (pozycja.GetType() == this.GetType())
