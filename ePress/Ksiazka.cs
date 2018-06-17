@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public abstract class Ksiazka : Pozycja
     {
 		protected Autor _autor;

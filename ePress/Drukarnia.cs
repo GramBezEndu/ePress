@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
 	public class Drukarnia
 	{
 		protected List<Tuple<DzialHandlowy, Pozycja, int>> _zlecenia;

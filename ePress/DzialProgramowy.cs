@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class DzialProgramowy
     {
         private List<Tuple<Autor, List<Umowa>>> _autorzy;

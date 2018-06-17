@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace ePress
 {
+    [Serializable]
     public class Autor : IEquatable<Autor>
     {
         private string _imie;

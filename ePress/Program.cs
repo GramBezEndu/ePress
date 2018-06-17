@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -291,6 +293,12 @@ namespace ePress
         {
             int wybor;
             string input;
+            try
+            {
+                //wydawnictwo.Get_dzialProgramowy().WczytajProgramowy();
+                //wydawnictwo.Get_dzialHandlowy().WczytajHandlowy();
+            }
+            catch { }
             Console.Clear();
             Console.WriteLine("Wybierz opcje\n");
             Console.WriteLine("0. Wyjscie z programu");
@@ -302,6 +310,8 @@ namespace ePress
                 switch (wybor)
                 {
                     case 0:
+                        //wydawnictwo.Get_dzialProgramowy().ZapiszProgramowy();
+                        //wydawnictwo.Get_dzialHandlowy().ZapiszHandlowy();
                         break;
                     case 1:
                         ProgramowyMenu(wydawnictwo, null);
@@ -657,20 +667,42 @@ namespace ePress
                     break;
             }
         }
+        static private void Zapisz(Wydawnictwo wydawnictwo)
+        {
+            FileStream plik = new FileStream("Dane.dat", FileMode.Create);
+            BinaryFormatter nowy = new BinaryFormatter();
+            nowy.Serialize(plik, wydawnictwo);
+            plik.Close();
+        }
+        static public Wydawnictwo Wczytaj()
+        {
+            FileStream plik;
+            plik = new FileStream("Dane.dat", FileMode.Open);
+            BinaryFormatter nowy = new BinaryFormatter();
+            Wydawnictwo nowe = (Wydawnictwo)nowy.Deserialize(plik);
+            plik.Close();
+            return nowe;
+        }
         static void Main(string[] args)
         {
+
             //Stworzenie wydawnictwa
             Wydawnictwo ePress = new Wydawnictwo(new DzialDruku(), new DzialHandlowy(), new DzialProgramowy(), "ePress");
             //Pozycja ksiazka1 = new CzasopismoTygodnik("Mleko", 1);
             //ePress.Get_dzialHandlowy().Set_pozycja(ksiazka1, 10);
 
-            //Wczytaj dane
+            //Odczyt
+            try
+            {
+                ePress = Wczytaj();
+            }
+            catch { }
 
             //Zarzadzanie wydawnictwem
             MainMenu(ePress);
 
             //Zapisz dane
-
+            Zapisz(ePress);
         }
     }
 }

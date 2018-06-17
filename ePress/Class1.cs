@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
-    [Serializable]
-    public class CzasopismoTygodnik : Czasopismo
+    class Class1
     {
-        public CzasopismoTygodnik(string tytul, int numer) : base(tytul, numer) { }
     }
 }

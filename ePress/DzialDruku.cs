@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class DzialDruku
     {
         private List<Drukarnia> _drukarnie;
@@ -36,5 +37,20 @@ namespace ePress
                 temp.ZlecenieDruku(dzialHandlowy, pozycja, ilosc);
             }
         }
+        //public void ZapiszDruku()
+        //{
+        //    FileStream plik = new FileStream("Druku.dat", FileMode.Create);
+        //    BinaryFormatter nowy = new BinaryFormatter();
+        //    nowy.Serialize(plik, _drukarnie);
+        //    plik.Close();
+        //}
+        //public void WczytajDruku()
+        //{
+        //    FileStream plik;
+        //    plik = new FileStream("Druku.dat", FileMode.Open);
+        //    BinaryFormatter nowy = new BinaryFormatter();
+        //    _drukarnie = (List<Drukarnia>)nowy.Deserialize(plik);
+        //    plik.Close();
+        //}
     }
 }

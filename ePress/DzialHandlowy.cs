@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class DzialHandlowy
     {
         private List<Tuple<Pozycja, int>> _pozycje;

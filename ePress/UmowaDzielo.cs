@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ePress
 {
+    [Serializable]
     public class UmowaDzielo : UmowaZlecenie
     {
 		private DateTime _dataZawarcia;
