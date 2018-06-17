@@ -38,6 +38,8 @@ namespace ePress
                     {
 						autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     }
+					if (autor_do_dodania == null)
+						return null;
                     string tytul_do_dodania, czytaj;
                     int rok_do_dodania;
                     Console.WriteLine("Podaj tytul:");
@@ -288,6 +290,192 @@ namespace ePress
             }
             return temp;
         }
+        static private void ProgramowyDodajUmowe(Wydawnictwo wydawnictwo, Autor autor)
+		{
+			if (autor == null)
+            {
+                Console.WriteLine("Nie wybrano żadnego autora");
+                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
+				return;
+            }
+            string rodzajumowy;
+            int wyborumowy;
+            DateTime datarozpoczecia = new DateTime();
+            DateTime datazakonczenia = new DateTime();
+            string data;
+
+            Console.WriteLine("Wybierz typ umowy:");
+            Console.WriteLine("0. Powrot");
+            Console.WriteLine("1. Umowa o prace");
+            Console.WriteLine("2. Umowa o dzielo");
+            Console.WriteLine("3. Umowa zlecenie");
+            rodzajumowy = Console.ReadLine();
+            Int32.TryParse(rodzajumowy, out wyborumowy);
+            switch (wyborumowy)
+            {
+                case 0:
+					return;
+                case 1:
+                    try
+                    {
+                        //potrzebne daty do umowy
+                        Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
+                        data = Console.ReadLine();
+                        datarozpoczecia = DateTime.Parse(data);
+                        Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
+                        data = Console.ReadLine();
+                        datazakonczenia = DateTime.Parse(data);
+                        //tworzy umowe o prace
+                        UmowaPraca umowaPraca = new UmowaPraca(datarozpoczecia, datazakonczenia);
+                        //dodaje umowe
+                        wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaPraca);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Nie udalo sie przekonwertowac dat.");
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    catch (UmowaException ue)
+                    {
+                        Console.WriteLine(ue.Message);
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    catch (AutorException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                        if (ae.autor != null)
+                        {
+                            ae.autor.Informacje();
+                        }
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    return;
+                case 2:
+					try
+					{
+						//potrzebne daty do umowy
+						Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
+						data = Console.ReadLine();
+						datarozpoczecia = DateTime.Parse(data);
+						Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
+						data = Console.ReadLine();
+						datazakonczenia = DateTime.Parse(data);
+						Console.WriteLine("Musisz dodac pozycje");
+						//probuje dodac nowa pozycje
+						Pozycja pozycja = DodajNowaPozycje(wydawnictwo, autor);
+						if (pozycja == null)
+							throw new UmowaException("Nie udalo sie dodac nowej pozycji");
+						//tworzy umowe o dzielo
+						UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia, pozycja);
+						//dodaje umowe
+						wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);
+					}
+					catch (FormatException)
+					{
+						Console.WriteLine("Nie udalo sie przekonwertowac dat.");
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+						Console.ReadKey();
+					}
+					catch (UmowaException ue)
+					{
+						Console.WriteLine(ue.Message);
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+						Console.ReadKey();
+					}
+					catch (AutorException ae)
+					{
+						Console.WriteLine(ae.Message);
+						if (ae.autor != null)
+						{
+							ae.autor.Informacje();
+						}
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+						Console.ReadKey();
+					}
+					return;
+                case 3:
+                    try
+                    {
+
+                        Console.WriteLine("Musisz dodac pozycje");
+                        //probuje stworzyc nowa pozycje
+                        Pozycja pozycja = DodajNowaPozycje(wydawnictwo, autor);
+                        if (pozycja == null)
+                            throw new UmowaException("Nie udalo sie dodac nowej pozycji");
+                        //tworzy umowe zlecenie
+                        UmowaZlecenie umowaZlecenie = new UmowaZlecenie(pozycja);
+                        //dodaje umowe
+                        wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaZlecenie);
+                    }
+                    catch (UmowaException ue)
+                    {
+                        Console.WriteLine(ue.Message);
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+                    //gdy nie odnajduje autora
+                    catch (AutorException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                        if (ae.autor != null)
+                        {
+                            ae.autor.Informacje();
+                        }
+                        Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
+                    }
+					return;
+            }
+		}
+        static private void ProgramowyUsunUmowe(Wydawnictwo wydawnictwo,Autor autor)
+		{
+			if (autor == null)
+            {
+                Console.WriteLine("Nie wybrano żadnego autora");
+                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
+				return;
+            }
+            //wyswietla umowy autora by mozna bylo wybrac do usuniecia
+            wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
+            Console.WriteLine("Podaj nr umowy do usuniecia");
+            int nrumowy;
+            string umowa;
+            Umowa umowadousuniecia;
+            umowa = Console.ReadLine();
+            if (Int32.TryParse(umowa, out nrumowy))
+            {
+                try
+                {
+                    //szuka umowy w bazie
+                    umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
+                    wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia);
+                }
+                //gdy indeks podany wykracza poza zakres umow
+                catch (IndexOutOfRangeException ior)
+                {
+                    Console.WriteLine(ior.Message);
+                }
+                //gdy nie udaje sie usunac tej umowy
+                catch (UmowaException ue)
+                {
+                    Console.WriteLine(ue.Message);
+                    if (ue.autorzwiazanyumowa != null)
+                    {
+                        ue.autorzwiazanyumowa.Informacje();
+                        foreach (Umowa umowyautora in ue.lista_umow_autora)
+                            umowyautora.Informacje();
+                    }
+
+                }
+				return;
+
+            }
+		}
         public static void MainMenu(Wydawnictwo wydawnictwo)
         {
             int wybor;
@@ -489,204 +677,12 @@ namespace ePress
                     ProgramowyMenu(wydawnictwo, autor);
                     break;
                 case 5:
-					if (autor == null)
-                    {
-                        Console.WriteLine("Nie wybrano żadnego autora");
-						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                        Console.ReadKey();
-                        ProgramowyMenu(wydawnictwo, autor);
-                    }
-					string rodzajumowy;
-                    int wyborumowy;
-					DateTime datarozpoczecia=new DateTime();
-					DateTime datazakonczenia=new DateTime();
-					string data;
-
-                    Console.WriteLine("Wybierz typ umowy:");
-                    Console.WriteLine("0. Powrot");
-                    Console.WriteLine("1. Umowa o prace");
-                    Console.WriteLine("2. Umowa o dzielo");
-					Console.WriteLine("3. Umowa zlecenie");
-                    rodzajumowy = Console.ReadLine();
-                    Int32.TryParse(rodzajumowy, out wyborumowy);
-					switch (wyborumowy){
-						case 0:
-							ProgramowyMenu(wydawnictwo, autor);
-							break;
-						case 1:
-							try
-							{
-								//potrzebne daty do umowy
-								Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
-								data = Console.ReadLine();
-								datarozpoczecia = DateTime.Parse(data);
-								Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
-                                data = Console.ReadLine();
-								datazakonczenia = DateTime.Parse(data);
-                                //tworzy umowe o prace
-								UmowaPraca umowaPraca = new UmowaPraca(datarozpoczecia, datazakonczenia);
-                                //dodaje umowe
-								wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaPraca);
-							}
-                            catch(FormatException)
-                            {
-								Console.WriteLine("Nie udalo sie przekonwertowac dat.");
-								Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-								Console.ReadKey();
-                            }
-							catch(UmowaException ue)
-							{
-								Console.WriteLine(ue.Message);
-								Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-							}
-							catch(AutorException ae)
-							{
-								Console.WriteLine(ae.Message);
-                                if (ae.autor != null)
-                                {
-                                    ae.autor.Informacje();
-                                }
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-							}
-							finally
-							{
-								ProgramowyMenu(wydawnictwo, autor);
-							}
-							break;
-						case 2:
-							try
-                            {
-								//potrzebne daty do umowy
-                                Console.WriteLine("Podaj date rozpoczecia: yyyy-mm-dd");
-                                data = Console.ReadLine();
-                                datarozpoczecia = DateTime.Parse(data);
-                                Console.WriteLine("Podaj date zakonczenia: yyyy-mm-dd");
-                                data = Console.ReadLine();
-								datazakonczenia = DateTime.Parse(data);
-								Console.WriteLine("Musisz dodac pozycje");
-                                //probuje dodac nowa pozycje
-								Pozycja pozycja = DodajNowaPozycje(wydawnictwo,autor);
-								if (pozycja == null)
-                                    throw new UmowaException("Nie udalo sie dodac nowej pozycji");
-								//tworzy umowe o dzielo
-								UmowaDzielo umowaDzielo = new UmowaDzielo(datarozpoczecia, datazakonczenia,pozycja);
-                                //dodaje umowe
-                                wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaDzielo);
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Nie udalo sie przekonwertowac dat.");
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-                            }
-							catch (UmowaException ue)
-                            {
-                                Console.WriteLine(ue.Message);
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-                            }
-                            catch (AutorException ae)
-                            {
-                                Console.WriteLine(ae.Message);
-                                if (ae.autor != null)
-                                {
-                                    ae.autor.Informacje();
-                                }
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-                            }
-                            finally
-                            {
-                                ProgramowyMenu(wydawnictwo, autor);
-                            }
-							break;
-						case 3:
-							try
-                            {
-                               
-                                Console.WriteLine("Musisz dodac pozycje");
-                                //probuje stworzyc nowa pozycje
-                                Pozycja pozycja = DodajNowaPozycje(wydawnictwo,autor);
-								if (pozycja == null)
-									throw new UmowaException("Nie udalo sie dodac nowej pozycji");
-								//tworzy umowe zlecenie
-								UmowaZlecenie umowaZlecenie = new UmowaZlecenie(pozycja);
-                                //dodaje umowe
-								wydawnictwo.Get_dzialProgramowy().DodajUmowe(autor, umowaZlecenie);
-                            }
-							catch (UmowaException ue)
-							{
-								Console.WriteLine(ue.Message);
-								Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-							}
-                            //gdy nie odnajduje autora
-                            catch (AutorException ae)
-                            {
-                                Console.WriteLine(ae.Message);
-                                if (ae.autor != null)
-                                {
-                                    ae.autor.Informacje();
-                                }
-                                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                                Console.ReadKey();
-                            }
-                            finally
-                            {
-                                ProgramowyMenu(wydawnictwo, autor);
-                            }
-							break;
-					}
+					ProgramowyDodajUmowe(wydawnictwo, autor);
+					ProgramowyMenu(wydawnictwo, autor);
                     break;
                 case 6:
-					if (autor == null)
-                    {
-                        Console.WriteLine("Nie wybrano żadnego autora");
-						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
-                        Console.ReadKey();
-                        ProgramowyMenu(wydawnictwo, autor);
-                    }
-                    //wyswietla umowy autora by mozna bylo wybrac do usuniecia
-					wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
-					Console.WriteLine("Podaj nr umowy do usuniecia");
-					int nrumowy;
-					string umowa;
-					Umowa umowadousuniecia;
-                    umowa = Console.ReadLine();
-					if(Int32.TryParse(umowa, out nrumowy))
-					{
-						try
-						{
-							//szuka umowy w bazie
-							umowadousuniecia = wydawnictwo.Get_dzialProgramowy().GetUmowa(autor, nrumowy);
-                            wydawnictwo.Get_dzialProgramowy().RozwiazUmowe(umowadousuniecia);
-						}
-                        //gdy indeks podany wykracza poza zakres umow
-						catch(IndexOutOfRangeException ior)
-						{
-							Console.WriteLine(ior.Message);
-       						}
-                        //gdy nie udaje sie usunac tej umowy
-						catch(UmowaException ue)
-						{
-							Console.WriteLine(ue.Message);
-							if(ue.autorzwiazanyumowa!=null)
-							{
-								ue.autorzwiazanyumowa.Informacje();
-								foreach (Umowa umowyautora in ue.lista_umow_autora)
-                                    umowyautora.Informacje();
-							}
-
-						}
-						finally
-						{
-							ProgramowyMenu(wydawnictwo, autor);
-						}
-
-					}
-
+					ProgramowyUsunUmowe(wydawnictwo, autor);
+					ProgramowyMenu(wydawnictwo, autor);
                     break;
                 case 7:
                     if (autor == null)
