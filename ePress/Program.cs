@@ -711,6 +711,10 @@ namespace ePress
         static private void Zapisz(Wydawnictwo wydawnictwo)
         {
             FileStream plik = new FileStream("Dane.dat", FileMode.Create);
+            if(plik == null)
+            {
+                throw new SaveException("Blad zapisu!");
+            }
             BinaryFormatter nowy = new BinaryFormatter();
             nowy.Serialize(plik, wydawnictwo);
             plik.Close();
@@ -719,6 +723,10 @@ namespace ePress
         {
             FileStream plik;
             plik = new FileStream("Dane.dat", FileMode.Open);
+            //if(plik == null)
+            //{
+            //    throw new LoadException("Nie wczytano danych");
+            //}
             BinaryFormatter nowy = new BinaryFormatter();
             Wydawnictwo nowe = (Wydawnictwo)nowy.Deserialize(plik);
             plik.Close();
@@ -737,13 +745,41 @@ namespace ePress
             {
                 ePress = Wczytaj();
             }
-            catch { }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("\nNie wczytano danych\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
+            }
 
             //Zarzadzanie wydawnictwem
             MainMenu(ePress);
 
             //Zapisz dane
-            Zapisz(ePress);
+            try
+            {
+                Zapisz(ePress);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                Console.ReadKey();
+            }
+        }
+        public class SaveException : Exception
+        {
+            public SaveException(string message) : base(message)
+            {
+
+            }
+        }
+        public class LoadException : Exception
+        {
+            public LoadException(string message) : base(message)
+            {
+
+            }
         }
     }
 }
