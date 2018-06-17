@@ -1,7 +1,0 @@
-C:\Users\Paweł\source\repos\ePress\ePress\obj\Debug\ePress.csprojAssemblyReference.cache
-C:\Users\Paweł\source\repos\ePress\ePress\obj\Debug\ePress.csproj.CoreCompileInputs.cache
-C:\Users\Paweł\source\repos\ePress\ePress\bin\Debug\ePress.exe.config
-C:\Users\Paweł\source\repos\ePress\ePress\bin\Debug\ePress.exe
-C:\Users\Paweł\source\repos\ePress\ePress\bin\Debug\ePress.pdb
-C:\Users\Paweł\source\repos\ePress\ePress\obj\Debug\ePress.exe
-C:\Users\Paweł\source\repos\ePress\ePress\obj\Debug\ePress.pdb
