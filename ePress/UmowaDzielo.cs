@@ -13,6 +13,10 @@ namespace ePress
 		private DateTime _dataKonca;
         public UmowaDzielo(DateTime dataZawarcia, DateTime dataKonca, Pozycja pozycja) : base(pozycja)
         {
+			if (dataZawarcia.CompareTo(dataKonca) > 0)
+            {
+                throw new UmowaException("Data rozpoczecia musi byc wczesniej niz data zakonczenia");
+            }
             this._dataZawarcia = dataZawarcia;
             this._dataKonca = dataKonca;
             this._pozycja = pozycja;

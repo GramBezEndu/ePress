@@ -13,9 +13,10 @@ namespace ePress
 		protected DateTime _dataKonca;
 		public UmowaPraca(DateTime dataZawarcia, DateTime dataKonca)
 		{
-            //DateTime dateTime = DateTime.Today;
-            //this._dataZawarcia = dateTime.ToString();
-            //this._dataKonca = "nieokreślony";
+			if (dataZawarcia.CompareTo(dataKonca) > 0)
+            {
+                throw new UmowaException("Data rozpoczecia musi byc wczesniej niz data zakonczenia");
+            }
             this._dataZawarcia = dataZawarcia;
             this._dataKonca = dataKonca;
 		}

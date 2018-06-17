@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions; 
 
 namespace ePress
 {
@@ -15,27 +15,30 @@ namespace ePress
         private string _pesel;
         public Autor(string imie, string nazwisko, string pesel)
         {
-            if(imie == null)
-				throw new AutorException("Musisz podać dane!");
-			Regex regex = new Regex("^[A-Za-zĄąĆćĘęŚśÓóŁłŻżŹźŃń]+$");
-			Match match = regex.Match(imie);
-			if (!match.Success)
-				throw new AutorException("Nieprawidlowy format imienia!");
-			this._imie = imie;
-			if (nazwisko == null)
+			if (imie == null)
                 throw new AutorException("Musisz podać dane!");
-			match = regex.Match(nazwisko);
+			//imie oraz nazwisko musi byc znakami
+            Regex regex = new Regex("^[A-Za-zĄąĆćĘęŚśÓóŁłŻżŹźŃń]+$");
+            Match match = regex.Match(imie);
+            if (!match.Success)
+                throw new AutorException("Nieprawidlowy format imienia!");
+            this._imie = imie;
+            if (nazwisko == null)
+                throw new AutorException("Musisz podać dane!");
+            match = regex.Match(nazwisko);
             if (!match.Success)
                 throw new AutorException("Nieprawidlowy format nazwiska!");
-			this._nazwisko = nazwisko;
-			Regex regexpesel = new Regex("^[0-9]+$");
-			Match matchpesel = regexpesel.Match(pesel);
-			if (!matchpesel.Success)
-			{
-				throw new AutorException("Nieprawidlowy format peselu!");
-			}
-			if (pesel.Length != 11)
-				throw new AutorException("Nieprawidłowa dlugosc peselu dla danych:"+imie+" "+nazwisko+" "+pesel);
+            this._nazwisko = nazwisko;
+            //pesel powinien przyjmowac tylko cyfry
+            Regex regexpesel = new Regex("^[0-9]+$");
+            Match matchpesel = regexpesel.Match(pesel);
+            if (!matchpesel.Success)
+            {
+                throw new AutorException("Nieprawidlowy format peselu!");
+            }
+            //pesel ma dlugosc 11 cyfr, jezeli podana dlugosc jest nieprawidlowa nie powinno go dodac
+            if (pesel.Length != 11)
+                throw new AutorException("Nieprawidłowa dlugosc peselu dla danych:" + imie + " " + nazwisko + " " + pesel);
             this._pesel = pesel;
         }
         public void Informacje()

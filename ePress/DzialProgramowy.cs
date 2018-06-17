@@ -45,6 +45,9 @@ namespace ePress
     		}
 			throw new AutorException("Nie znaleziono autora",autor);
 		}
+		/// <summary>
+        /// Przeszukuje listę autorów, jeżeli autor znajduje się w liście i ma w liście umów podaną umowę to ją usuwa
+        /// </summary>
 		public void RozwiazUmowe(Umowa umowa)
 		{
 			foreach (Tuple<Autor, List<Umowa>> tuple in this._autorzy)
@@ -66,6 +69,11 @@ namespace ePress
             }
 			throw new UmowaException("Brak umowy w bazie");
 		}
+		/// <summary>
+        /// Przeszukuje listę autorów, jeżeli autor znajduje się w liście to wypisuje wszystkie umowy.
+		/// Jeżeli autora nie ma na liście to nie wyrzuca wyjątku, po prostu nic nie wypisze.
+		/// Metoda zakłada że autor musi być na liście, by metoda zostala wywołana.
+        /// </summary>
 		public void PrzegladUmow(Autor autor)
 		{
 			int i; //numeruje umowy - potrzebne do metody RozwiazUmowe
@@ -85,6 +93,9 @@ namespace ePress
                 }
             }
 		}
+		/// <summary>
+        /// Dodaje autora do listy autorów. Wszyscy autorzy muszą mieć unikatowy pesel.
+        /// </summary>
         public void DodajAutora(Autor autor)
         {
 			//metoda nie powinna dodawac juz istniejacego autora, wykorzystanie LINQ
@@ -99,11 +110,18 @@ namespace ePress
 			else
 				throw new AutorException("Autor już istnieje w bazie", posiadaczetegopeselu.ElementAt(0).Item1);
         }
+		/// <summary>
+        /// Przeszukuje listę autorów i usuwa podanego autora.
+		///  RemoveAll zwraca ilośc usuniętych rekordów, jeżeli == 0 to znaczy, że nie ma takiego autora.
+        /// </summary>
         public void UsunAutora(Autor autor)
         {
 			if (this._autorzy.RemoveAll(i => i.Item1.Equals(autor)) == 0)
 				throw new AutorException("Nie znaleziono autora");
         }
+		/// <summary>
+        /// Wyswietla informacje o każdym z autorów na liście autorów
+        /// </summary>
         public void PrzegladAutorow()
         {
             Console.WriteLine("Lista autorow:");
@@ -112,6 +130,10 @@ namespace ePress
                 tuple.Item1.Informacje();
             }
         }
+		/// <summary>
+        /// Dodatkowa metoda potrzebna przy usuwaniu umów, otrzymuje indeks umowy
+		/// dla danego autora i szuka jej w bazie.
+        /// </summary>
         public Umowa GetUmowa(Autor autor,int indeks)
 		{
 			foreach(Tuple<Autor, List<Umowa>> tuple in this._autorzy)
@@ -126,10 +148,6 @@ namespace ePress
 				}
 			}
 			throw new UmowaException("Nie ma takiej umowy");
-			/*var szukanaumowa = from szukanyautor in _autorzy where (szukanyautor.Item1.Equals(autor)) select szukanyautor.Item2[indeks-1];
-			if(szukanaumowa!=null)
-				return szukanaumowa;
-			throw new UmowaException("Nie ma takiej umowy");*/
 		}
     }
 	public class AutorException:Exception
