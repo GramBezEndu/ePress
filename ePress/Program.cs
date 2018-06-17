@@ -436,6 +436,7 @@ namespace ePress
 						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
                         Console.ReadKey();
                         ProgramowyMenu(wydawnictwo, autor);
+						return;
                     }
                     try
                     {
@@ -482,6 +483,7 @@ namespace ePress
 						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
                         Console.ReadKey();
                         ProgramowyMenu(wydawnictwo, autor);
+						return;
                     }
 					string rodzajumowy;
                     int wyborumowy;
@@ -598,7 +600,10 @@ namespace ePress
 					if (autor == null)
                     {
                         Console.WriteLine("Nie wybrano żadnego autora");
+						Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
+                        Console.ReadKey();
                         ProgramowyMenu(wydawnictwo, autor);
+						return;
                     }
 					wydawnictwo.Get_dzialProgramowy().PrzegladUmow(autor);
 					Console.WriteLine("Podaj nr umowy do usuniecia");
