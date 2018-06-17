@@ -14,7 +14,7 @@ namespace ePress
         /// Dodaje pozycje do listy w dziale handlowym
         /// zwraca dodaną pozycje, jezeli nie dodano - zwraca null
         /// </summary>
-        static private Pozycja DodajNowaPozycje(Wydawnictwo wydawnictwo)
+        static private Pozycja DodajNowaPozycje(Wydawnictwo wydawnictwo, Autor autor_do_dodania)
         {
             string input;
             int wybor3;
@@ -34,10 +34,9 @@ namespace ePress
                 case 0:
                     return null;
                 case 1:
-                    Autor autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     if (autor_do_dodania == null)
                     {
-                        return null;
+						autor_do_dodania = ZnajdzAutora(wydawnictwo);
                     }
                     string tytul_do_dodania, czytaj;
                     int rok_do_dodania;
@@ -256,7 +255,7 @@ namespace ePress
                     HandlowyMenu(wydawnictwo);
                     break;
                 case 2:
-                    DodajNowaPozycje(wydawnictwo);
+                    DodajNowaPozycje(wydawnictwo,null);
                     HandlowyMenu(wydawnictwo);
                     return;
                 default:
@@ -568,7 +567,7 @@ namespace ePress
 								datazakonczenia = DateTime.Parse(data);
 								Console.WriteLine("Musisz dodac pozycje");
                                 //probuje dodac nowa pozycje
-								Pozycja pozycja = DodajNowaPozycje(wydawnictwo);
+								Pozycja pozycja = DodajNowaPozycje(wydawnictwo,autor);
 								if (pozycja == null)
                                     throw new UmowaException("Nie udalo sie dodac nowej pozycji");
 								//tworzy umowe o dzielo
@@ -609,7 +608,7 @@ namespace ePress
                                
                                 Console.WriteLine("Musisz dodac pozycje");
                                 //probuje stworzyc nowa pozycje
-                                Pozycja pozycja = DodajNowaPozycje(wydawnictwo);
+                                Pozycja pozycja = DodajNowaPozycje(wydawnictwo,autor);
 								if (pozycja == null)
 									throw new UmowaException("Nie udalo sie dodac nowej pozycji");
 								//tworzy umowe zlecenie
