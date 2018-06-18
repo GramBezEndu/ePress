@@ -48,7 +48,14 @@ namespace ePress
 					{
 						Console.WriteLine("Pozycja nie znajduje się jeszcze w ofercie, zostanie utworzona");
 						brakpozycji.szukanapozycja.Informacje();
-						tuple.Item1.Stworz_pozycje(tuple.Item2, tuple.Item3); //trzeba sprawdzic czy ma to rece i nogi
+                        try
+                        {
+                            tuple.Item1.Stworz_pozycje(tuple.Item2, tuple.Item3); //trzeba sprawdzic czy ma to rece i nogi
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         Console.ReadKey();
 					}
                 }

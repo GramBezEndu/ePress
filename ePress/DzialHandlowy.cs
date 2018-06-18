@@ -81,7 +81,7 @@ namespace ePress
         }
         public void Stworz_pozycje(Pozycja pozycja, int ilosc)
         {
-            if (ilosc <= 0)
+            if (ilosc < 0)
                 throw new InvalidOperationException("Nieodpowiednia ilosc");
             foreach(Tuple<Pozycja, int> temp in _pozycje)
             {

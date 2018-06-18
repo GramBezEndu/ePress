@@ -1,0 +1,7 @@
+C:\Users\Paweł\source\repos\ePress\ePress\bin\Release\ePress.exe.config
+C:\Users\Paweł\source\repos\ePress\ePress\bin\Release\ePress.exe
+C:\Users\Paweł\source\repos\ePress\ePress\bin\Release\ePress.pdb
+C:\Users\Paweł\source\repos\ePress\ePress\obj\Release\ePress.csprojAssemblyReference.cache
+C:\Users\Paweł\source\repos\ePress\ePress\obj\Release\ePress.csproj.CoreCompileInputs.cache
+C:\Users\Paweł\source\repos\ePress\ePress\obj\Release\ePress.exe
+C:\Users\Paweł\source\repos\ePress\ePress\obj\Release\ePress.pdb
