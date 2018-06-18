@@ -703,42 +703,18 @@ namespace ePress
                     break;
             }
         }
-        static private void Zapisz(Wydawnictwo wydawnictwo)
-        {
-            FileStream plik = new FileStream("Dane.dat", FileMode.Create);
-            if(plik == null)
-            {
-                throw new SaveException("Blad zapisu!");
-            }
-            BinaryFormatter nowy = new BinaryFormatter();
-            nowy.Serialize(plik, wydawnictwo);
-            plik.Close();
-        }
-        static public Wydawnictwo Wczytaj()
-        {
-            FileStream plik;
-            plik = new FileStream("Dane.dat", FileMode.Open);
-            //if(plik == null)
-            //{
-            //    throw new LoadException("Nie wczytano danych");
-            //}
-            BinaryFormatter nowy = new BinaryFormatter();
-            Wydawnictwo nowe = (Wydawnictwo)nowy.Deserialize(plik);
-            plik.Close();
-            return nowe;
-        }
         static void Main(string[] args)
         {
 
             //Stworzenie wydawnictwa
             Wydawnictwo ePress = new Wydawnictwo(new DzialDruku(), new DzialHandlowy(), new DzialProgramowy(), "ePress");
-            //Pozycja ksiazka1 = new CzasopismoTygodnik("Mleko", 1);
-            //ePress.Get_dzialHandlowy().Set_pozycja(ksiazka1, 10);
+
+            ZapisSystemu glowny = new ZapisSystemu();
 
             //Odczyt
             try
             {
-                ePress = Wczytaj();
+                ePress = glowny.Wczytaj();
             }
             catch(Exception e)
             {
@@ -753,27 +729,13 @@ namespace ePress
             //Zapisz dane
             try
             {
-                Zapisz(ePress);
+                glowny.Zapisz(ePress);
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("\nAby kontunuowac nacisnij dowolny przycisk...");
                 Console.ReadKey();
-            }
-        }
-        public class SaveException : Exception
-        {
-            public SaveException(string message) : base(message)
-            {
-
-            }
-        }
-        public class LoadException : Exception
-        {
-            public LoadException(string message) : base(message)
-            {
-
             }
         }
     }
